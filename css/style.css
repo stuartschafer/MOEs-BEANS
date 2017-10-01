@@ -1,0 +1,67 @@
+.mountains {
+    background-color: grey;
+}
+
+.lowlands {
+    background-color: green;
+}
+
+.beans {
+    background-color: red;
+}
+
+.water {
+    background-color: blue;
+}
+
+.row1 {
+    border: 2px black solid;
+}
+
+.board {
+    height: 50px;
+}
+
+.beans {
+    width: 60px;
+    height: 50px;
+    margin-left: 42%;
+
+    background-color: red;
+}
+
+
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  > .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+#mage, #ogre, #elf {
+    position: absolute;
+    margin-top: 40px;
+    height: 50px;
+    width: 50px;
+}
+
+#ogre {
+    margin-top: 95px;
+}
+
+#elf {
+    margin-top: 150px;
+}
+
+#messages {
+    height: 40px;
+}
+
+.moe {
+    height: 20px;
+    width: 20px;
+}
