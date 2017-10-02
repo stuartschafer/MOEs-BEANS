@@ -3,6 +3,7 @@ $(document).ready(function() {
     let pick = "";
     let charCount = 0;
     let allCharacters = ["mage", "ogre", "elf"];
+    let charArray = [];
 
     $(".moe").hide();
     $("#messages").html("Please select a character");
@@ -38,17 +39,16 @@ $(document).ready(function() {
             $(".moeChoices").fadeIn("slow");
             $("#messages").html("Please select a character");
             pick = "";
-            $("#newChar").html('<img id="' + charCount + char + 'Row1" class="moe" src="images/' + char + '.jpeg"/>');
+            $("#newChar").prepend('<img id="' + charCount + char + 'Row1" class="moe" src="images/' + char + '.jpeg"/>');
+            charArray.push("#" + charCount + char + "Row1");
         }
     });
 
 
     function selecChar() {
         if (charCount != 0) {
-            // console.log("#" + charCount + char + "Row1");
-            for (var i=0; i<allCharacters.length; i++) {
-                
-                $("#" + charCount + allCharacters[i] + "Row1").css("margin-left", "20px");
+            for (var i=0; i<charArray.length; i++) {
+                $(charArray[i]).css("margin-left", "20px");
             }
         }
 
