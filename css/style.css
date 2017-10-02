@@ -1,62 +1,60 @@
 .mountains {
     position: absolute;
-    margin-top: 42px;
     width: 4.7%;
     height: 50px;
-    margin-left: 6.8%;
     background-color: grey;
 }
 
 .lowlands {
     position: absolute;
-    margin-top: 42px;
     width: 20.3%;
     height: 50px;
-    margin-left: 11.5%;
+    margin-left: 4.7%;
     background-color: green;
-}
-
-.beans {
-    background-color: red;
 }
 
 .water {
     position: absolute;
-    margin-top: 42px;
     width: 17%;
     height: 50px;
-    margin-left: 31.8%;
+    margin-left: 25%;
     background-color: blue;
+}
+
+.beans {
+    position: absolute;
+    z-index: 10;
+    margin-left: 42%;
+    width: 3%;
+    height: 50px;
+    background-color: red;
 }
 
 .enemyWater {
     position: absolute;
-    margin-top: 42px;
     width: 17%;
     height: 50px;
-    margin-left: 51.8%;
+    margin-left: 45%;
     background-color: blue;
 }
 
 .enemyLowlands {
     position: absolute;
-    margin-top: 42px;
     width: 20.3%;
     height: 50px;
-    margin-left: 68.8%;
+    margin-left: 62%;
     background-color: green;
 }
 
 .enemyMountains {
     position: absolute;
-    margin-top: 42px;
-    width: 4.7%;
+    width: 4.1%;
     height: 50px;
-    margin-left: 88.5%;
+    margin-left: 82.3%;
     background-color: grey;
 }
 
-.row1 {
+.row1, .row2, .row3, .row4 {
     border: 2px black solid;
 }
 
@@ -64,15 +62,7 @@
     height: 50px;
 }
 
-.beans {
-    position: absolute;
-    z-index: 10;
-    margin-top: 42px;
-    margin-left: 48.8%;
-    width: 3%;
-    height: 50px;
-    background-color: red;
-}
+
 
 
 .no-gutters {
