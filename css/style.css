@@ -7,7 +7,7 @@
 
 .lowlands {
     position: absolute;
-    width: 20.3%;
+    width: 20.4%;
     height: 50px;
     margin-left: 4.7%;
     background-color: green;
@@ -15,7 +15,7 @@
 
 .water {
     position: absolute;
-    width: 17%;
+    width: 17.2%;
     height: 50px;
     margin-left: 25%;
     background-color: blue;
@@ -24,8 +24,8 @@
 .beans {
     position: absolute;
     z-index: 10;
-    margin-left: 42%;
-    width: 3%;
+    margin-left: 42.2%;
+    width: 2.6%;
     height: 50px;
     background-color: red;
 }
@@ -34,7 +34,7 @@
     position: absolute;
     width: 17%;
     height: 50px;
-    margin-left: 45%;
+    margin-left: 44.8%;
     background-color: blue;
 }
 
@@ -42,15 +42,15 @@
     position: absolute;
     width: 20.3%;
     height: 50px;
-    margin-left: 62%;
+    margin-left: 61.8%;
     background-color: green;
 }
 
 .enemyMountains {
     position: absolute;
-    width: 4.1%;
+    width: 4.3%;
     height: 50px;
-    margin-left: 82.3%;
+    margin-left: 82.1%;
     background-color: grey;
 }
 
@@ -96,6 +96,15 @@
 }
 
 .moe {
-    height: 20px;
+    margin-top: .75%;
+    height: 40px;
+    width: 20px;
+}
+
+.emptyBox {
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 2px solid black;
+    height: 38px;
     width: 20px;
 }
