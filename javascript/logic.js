@@ -21,8 +21,13 @@ createEmptyBoxes();
         for (var i = 1; i < 5; i++) {
             for (var j = 1; j < 28; j++) {
                 $("#row" + i).append('<img id="r' + i + 's' + j + '" class="emptyBox" occupied=false />');
+                $("#enemyrow" + i).prepend('<img id="enemyr' + i + 's' + j + '" class="emptyBox" occupied=false />');
             }      
         }
+
+       
+
+
     }
 
     
