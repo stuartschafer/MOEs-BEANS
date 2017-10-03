@@ -18,9 +18,8 @@ $(document).ready(function() {
 createEmptyBoxes();
 
     function createEmptyBoxes() {
-        // j < 28
         for (var i = 1; i < 5; i++) {
-            for (var j = 1; j < 11; j++) {
+            for (var j = 1; j < 28; j++) {
                 $("#row" + i).append('<img id="r' + i + 's' + j + '" class="emptyBox" occupied=false />');
             }      
         }
