@@ -1,13 +1,16 @@
 $(document).ready(function() {
     let char = "";
     let pick = "";
-    let charCount = 0;
+    let atBeans = false;
+    let waitToScavenge = false;
     let attack = 0;
     let hp = 0;
     let scav = 0;
+    let scavengeRow = 0;
     let allCharacters = ["mage", "ogre", "elf"];
     let charArray = [];
-    let row = "";
+    let row = 0;
+    let newChar = {};
 
     $(".moe").hide();
     $("#messages").html("Please select a character");
@@ -15,19 +18,11 @@ $(document).ready(function() {
 createEmptyBoxes();
 
     function createEmptyBoxes() {
+        // j < 28
         for (var i = 1; i < 5; i++) {
-            for (var j = 1; j < 14; j++) {
-                if (j < 4) {
-                    $("#row" + i + "M").append('<img id="r' + i + 's' + j + '" class="emptyBox" />');
-                    $("#row" + i + "L").append('<img id="r' + i + 's' + j + '" class="emptyBox" />');
-                    $("#row" + i + "W").append('<img id="r' + i + 's' + j + '" class="emptyBox" />');
-                } else if (j < 12) {
-                    $("#row" + i + "L").append('<img id="r' + i + 's' + j + '" class="emptyBox" />');
-                    $("#row" + i + "W").append('<img id="r' + i + 's' + j + '" class="emptyBox" />');
-                } else {
-                    $("#row" + i + "L").append('<img id="r' + i + 's' + j + '" class="emptyBox" />');
-                }      
-            }
+            for (var j = 1; j < 11; j++) {
+                $("#row" + i).append('<img id="r' + i + 's' + j + '" class="emptyBox" occupied=false />');
+            }      
         }
     }
 
@@ -41,7 +36,7 @@ createEmptyBoxes();
         attack = 3;
         hp = 2;
         scav = 1;
-        selecChar();
+        moveCharacters();
     });
 
     $("#ogre").click(function() {
@@ -50,7 +45,7 @@ createEmptyBoxes();
         attack = 1;
         hp = 6;
         scav = 3;
-        selecChar();
+        moveCharacters();
     });
 
     $("#elf").click(function() {
@@ -59,70 +54,78 @@ createEmptyBoxes();
         attack = 2;
         hp = 4;
         scav = 2;
-        selecChar();
+        moveCharacters();
     });
 
     $(".row1").click(function() {
-        row = "Row1";
+        row = 1;
         if (pick === "picked") {
             rowChosen();
         }
     });
 
     $(".row2").click(function() {
-        row = "Row2";
+        row = 2;
         if (pick === "picked") {
             rowChosen();
         }
     });
 
     $(".row3").click(function() {
-        row = "Row3";
+        row = 3;
         if (pick === "picked") {
             rowChosen();
         }
     });
 
     $(".row4").click(function() {
-        row = "Row4";
+        row = 4;
         if (pick === "picked") {
             rowChosen();
         }
     });
 
     function rowChosen() {
-        charCount++;
-        $("#" + char).fadeOut("slow");
+        moveCharacters();
+
+        newChar = {};
         $(".moeChoices").fadeIn("slow");
         $("#messages").html("Please select a character");
         pick = "";
-        $("#newChar" + row).prepend('<img id="' + charCount + char + row + '" data-position="1" class="moe" data-attack=' + attack + ' data-hp=' + hp + ' data-scav=' + scav + ' src="images/' + char + '.jpeg"/>');
-        charArray.push("#" + charCount + char + row);
-        console.log(charArray);
+        $("#r" + row + "s1").attr("src", 'images/' + char + '.jpeg');
+        $("#r" + row + "s1").attr("occupied", true);
+        // Setting attributes to the newChar object
+        newChar.char = char;
+        newChar.row = row;
+        newChar.position = 1;
+        newChar.pic = 'images/' + char + '.jpeg';
+        newChar.attack = attack;
+        newChar.hp = hp;
+        newChar.scav = scav;
+        newChar.position = 1;
+        newChar.atBeans = false;
+        newChar.waitToScavenge = false;
+        charArray.push(newChar);
+        row = 0;
+
+        // console.log(charArray);
     }
 
 
-    function selecChar() {
-        
-        if (charCount != 0) {
-            for (var i=0; i<charArray.length; i++) {
-                var position = $(charArray[i]).attr("data-position");
-
-                if (position === "20") {
-                    $(charArray[i]).css("position", "fixed");
-                    $(charArray[i]).css("margin-top", "4px");
-                } else {
-                    $(charArray[i]).css("margin-left", "20px");
-                    position++;
-                    $(charArray[i]).attr("data-position", position);
-                }
-                
-                
-                
-            }
+    function moveCharacters() {
+        // This moves all characters ahead 1 space BUT only if the space ahead of it is NOT occupied
+        for (var j = 0; j < charArray.length; j++) {
+            let isSpaceAheadOccupied = $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("occupied");
+            
+           if (isSpaceAheadOccupied === "false") {
+                $("#r" + charArray[j].row + "s" + charArray[j].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
+                $("#r" + charArray[j].row + "s" + charArray[j].position).attr("occupied", false);
+                $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("src", charArray[j].pic);
+                $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("occupied", true);
+                charArray[j].position = Number(charArray[j].position) + 1;
+           }
         }
-
-
+        
         for (var i=0; i<allCharacters.length; i++) {
             if (char != allCharacters[i]) {
                 $("#" + allCharacters[i]).fadeOut("slow");
@@ -131,4 +134,4 @@ createEmptyBoxes();
         $("#messages").html("Please select a row");
     }
 
-})
+});
