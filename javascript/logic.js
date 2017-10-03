@@ -44,7 +44,9 @@ createEmptyBoxes();
         for (var i = 1; i < 5; i++) {
             for (var j = 1; j < 28; j++) {
                 $("#row" + i).append('<img id="r' + i + 's' + j + '" class="emptyBox" occupied=false />');
+                $("#r" + i + "s" + j).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
                 $("#enemyrow" + i).prepend('<img id="enemyr' + i + 's' + j + '" class="emptyBox" occupied=false />');
+                $("#enemyr" + i + "s" + j).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
             }      
         }
     }
@@ -131,28 +133,49 @@ createEmptyBoxes();
 
 
     function moveCharacters() {
-        // This moves all characters ahead 1 space BUT only if the space ahead of it is NOT occupied
         for (var j = 0; j < charArray.length; j++) {
+
+            // Harvests beans for the player
+            if (charArray[j].atBeans === "true") {
+                // harvest beans for player here
+            }
+
             let isSpaceAheadOccupied = $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("occupied");
-            
-           if (isSpaceAheadOccupied === "false") {
+            // This moves all characters ahead 1 space BUT only if the space ahead of it is NOT occupied
+            if (isSpaceAheadOccupied === "false") {
                 $("#r" + charArray[j].row + "s" + charArray[j].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
                 $("#r" + charArray[j].row + "s" + charArray[j].position).attr("occupied", false);
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("src", charArray[j].pic);
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("occupied", true);
                 charArray[j].position = Number(charArray[j].position) + 1;
+                
+                if (charArray[j].position === 27) {
+                    charArray[j].atBeans = true;
+                }
            }
         }
-        // This moves the enemy's charaters ahead
+
+
+        // CANNOT use same k as above as both charArray and enemyCharArray may be a different qty
         for (var k = 0; k < enemyCharArray.length; k++) {
-            let isSpaceAheadOccupiedforEnemy = $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("occupied");
             
-           if (isSpaceAheadOccupiedforEnemy === "false") {
+            // This will be for the enemy harvesting beans
+            if (enemyCharArray[k].atBeans === "true") {
+                // ENEMY harvest beans
+            }
+
+            let isSpaceAheadOccupiedforEnemy = $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("occupied");
+            // This moves the enemy's charaters ahead
+            if (isSpaceAheadOccupiedforEnemy === "false") {
                 $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
                 $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("occupied", false);
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("src", enemyCharArray[k].pic);
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("occupied", true);
                 enemyCharArray[k].position = Number(enemyCharArray[k].position) + 1;
+
+                if (enemyCharArray[k].position === 27) {
+                    enemyCharArray[k].atBeans = true;
+                }
            }
         }
         
