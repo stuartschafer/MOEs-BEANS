@@ -7,10 +7,32 @@ $(document).ready(function() {
     let hp = 0;
     let scav = 0;
     let scavengeRow = 0;
-    let allCharacters = ["mage", "ogre", "elf"];
+    // let allCharacters = ["mage", "ogre", "elf"];
+    let allCharacters = [
+        { char: "mage",
+        attack: 3,
+        hp: 2,
+        scav: 1
+        },
+        { char: "ogre",
+        attack: 1,
+        hp: 6,
+        scav: 3
+        },
+        { char: "elf",
+        attack: 2,
+        hp: 4,
+        scav: 2
+        }
+    ];
+
+    // console.log(allCharacters);
+
     let charArray = [];
+    let enemyCharArray = [];
     let row = 0;
     let newChar = {};
+
 
     $(".moe").hide();
     $("#messages").html("Please select a character");
@@ -27,34 +49,30 @@ createEmptyBoxes();
         }
     }
 
-    
-
-
-
     $("#mage").click(function() {
         pick = "picked";
-        char = "mage";
-        attack = 3;
-        hp = 2;
-        scav = 1;
+        char = allCharacters[0].char;
+        attack = allCharacters[0].attack;
+        hp = allCharacters[0].hp;
+        scav = allCharacters[0].scav;
         moveCharacters();
     });
 
     $("#ogre").click(function() {
         pick = "picked";
-        char = "ogre";
-        attack = 1;
-        hp = 6;
-        scav = 3;
+        char = allCharacters[1].char;
+        attack = allCharacters[1].attack;
+        hp = allCharacters[1].hp;
+        scav = allCharacters[1].scav;
         moveCharacters();
     });
 
     $("#elf").click(function() {
         pick = "picked";
-        char = "elf";
-        attack = 2;
-        hp = 4;
-        scav = 2;
+        char = allCharacters[2].char;
+        attack = allCharacters[2].attack;
+        hp = allCharacters[2].hp;
+        scav = allCharacters[2].scav;
         moveCharacters();
     });
 
@@ -88,6 +106,7 @@ createEmptyBoxes();
 
     function rowChosen() {
         moveCharacters();
+        enemyPlacesCharacter();
 
         newChar = {};
         $(".moeChoices").fadeIn("slow");
@@ -98,14 +117,12 @@ createEmptyBoxes();
         // Setting attributes to the newChar object
         newChar.char = char;
         newChar.row = row;
-        newChar.position = 1;
         newChar.pic = 'images/' + char + '.jpeg';
         newChar.attack = attack;
         newChar.hp = hp;
         newChar.scav = scav;
         newChar.position = 1;
         newChar.atBeans = false;
-        newChar.waitToScavenge = false;
         charArray.push(newChar);
         row = 0;
 
@@ -126,13 +143,46 @@ createEmptyBoxes();
                 charArray[j].position = Number(charArray[j].position) + 1;
            }
         }
+        // This moves the enemy's charaters ahead
+        for (var k = 0; k < enemyCharArray.length; k++) {
+            let isSpaceAheadOccupiedforEnemy = $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("occupied");
+            
+           if (isSpaceAheadOccupiedforEnemy === "false") {
+                $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
+                $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("occupied", false);
+                $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("src", enemyCharArray[k].pic);
+                $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("occupied", true);
+                enemyCharArray[k].position = Number(enemyCharArray[k].position) + 1;
+           }
+        }
         
         for (var i=0; i<allCharacters.length; i++) {
-            if (char != allCharacters[i]) {
-                $("#" + allCharacters[i]).fadeOut("slow");
+            if (char != allCharacters[i].char) {
+                $("#" + allCharacters[i].char).fadeOut("slow");
             }
         }
         $("#messages").html("Please select a row");
+    }
+
+    function enemyPlacesCharacter() {
+        var enemyCharNumber = Math.floor((Math.random() * 3));
+        var enemyRow = Math.floor((Math.random() * 4) + 1);
+
+        newEnemyChar = {};
+     
+        $("#enemyr" + enemyRow + "s1").attr("src", 'images/' + allCharacters[enemyCharNumber].char + '.jpeg');
+        $("#enemyr" + enemyRow + "s1").attr("occupied", true);
+        // Setting attributes to the newChar object
+        newEnemyChar.char = allCharacters[enemyCharNumber].char;
+        newEnemyChar.row = enemyRow;
+        newEnemyChar.pic = 'images/' + allCharacters[enemyCharNumber].char + '.jpeg';
+        newEnemyChar.attack = allCharacters[enemyCharNumber].attack;
+        newEnemyChar.hp = allCharacters[enemyCharNumber].hp;
+        newEnemyChar.scav = allCharacters[enemyCharNumber].scav;
+        newEnemyChar.position = 1;
+        newEnemyChar.atBeans = false;
+        enemyCharArray.push(newEnemyChar);
+        console.log(enemyCharArray);
     }
 
 });
