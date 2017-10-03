@@ -17,6 +17,7 @@ $(document).ready(function() {
     
 createEmptyBoxes();
 
+    // This creates all empty boxes on the screen and adds attributes to them
     function createEmptyBoxes() {
         for (var i = 1; i < 5; i++) {
             for (var j = 1; j < 28; j++) {
@@ -24,10 +25,6 @@ createEmptyBoxes();
                 $("#enemyrow" + i).prepend('<img id="enemyr' + i + 's' + j + '" class="emptyBox" occupied=false />');
             }      
         }
-
-       
-
-
     }
 
     
