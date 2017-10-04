@@ -93,7 +93,7 @@
     border-radius: 5px;
     border: 2px solid black;
     height: 40px;
-    width: 20px;
+    width: 28.42px;
 }
 
 .enemyRow {
@@ -102,4 +102,9 @@
 
 .row {
     height: 80px;
+}
+
+#heart {
+    height: 10px;
+    width: 10px;
 }
