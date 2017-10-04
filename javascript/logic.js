@@ -183,10 +183,20 @@ createEmptyBoxes();
             let isSpaceAheadOccupiedforEnemy = $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("occupied");
             // This moves the enemy's charaters ahead
             if (isSpaceAheadOccupiedforEnemy === "false") {
-                $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
-                $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("occupied", false);
+                // Change next box for the ENEMY to new values
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("src", enemyCharArray[k].pic);
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("occupied", true);
+                $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("hp", enemyCharArray[k].hp);
+                $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("attack", enemyCharArray[k].attack);
+                $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("scav", enemyCharArray[k].scav);
+
+                // Change current box for the ENEMY to old values
+                $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
+                $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("occupied", false);
+                $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("hp", 0);
+                $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("attack", 0);
+                $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("scav", 0);
+
                 enemyCharArray[k].position = Number(enemyCharArray[k].position) + 1;
 
                 if (enemyCharArray[k].position === 27) {
