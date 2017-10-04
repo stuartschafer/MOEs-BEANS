@@ -58,9 +58,12 @@ createEmptyBoxes();
                 $("#enemyr" + i + "s" + j).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
 
                 // Adds an area for stats
-                let statArea = $('<div id="statsR' + i + 's' + j + '" />');
-                let enemyStatArea = $('<div id="enemyStatsR' + i + 's' + j + '" />');
+                let statArea = $('<div id="statsR' + i + 's' + j + '" class="stats" />');
+                let underPicStatArea = $('<div id="underStatsR' + i + 's' + j + '" class="underStats" />');
+                let enemyStatArea = $('<div id="enemyStatsR' + i + 's' + j + '" class="stats" />');
+                let underEnemyStatArea = $('<div id="underEnemyStatsR' + i + 's' + j + '" class="underStats" />');
                 $(statArea).css({"text-align":"center", "font-size":"15px", "width":"20", "display":"block"});
+                $(underPicStatArea).css({"text-align":"center", "font-size":"15px", "width":"20", "display":"block"});
                 $(enemyStatArea).css({"text-align":"center", "font-size":"15px", "width":"20", "display":"block"});
                 
                 // Combines the pic and stats on the same line
@@ -68,8 +71,8 @@ createEmptyBoxes();
                 let enemyimageAndHP = $("<div>");
                 $(imageAndHP).css({"float":"left"});
                 $(enemyimageAndHP).css({"float":"left"});
-                $(imageAndHP).append(characterImage, statArea);
-                $(enemyimageAndHP).append(enemyCharacterImage, enemyStatArea);
+                $(imageAndHP).append(statArea, characterImage, underPicStatArea);
+                $(enemyimageAndHP).append(enemyStatArea, enemyCharacterImage, underEnemyStatArea);
 
                 // Adds it to the corresponding row on the page
                 $("#row" + i).append(imageAndHP);
@@ -80,35 +83,42 @@ createEmptyBoxes();
 
     // Clicking this means the user selected the MAGE character
     $("#mage").click(function() {
-        pick = "picked";
-        char = allCharacters[0].char;
-        attack = allCharacters[0].attack;
-        hp = allCharacters[0].hp;
-        scav = allCharacters[0].scav;
-        range = allCharacters[0].range;
-        moveCharacters();
+        if (pick != "picked") {
+            pick = "picked";
+            char = allCharacters[0].char;
+            attack = allCharacters[0].attack;
+            hp = allCharacters[0].hp;
+            scav = allCharacters[0].scav;
+            range = allCharacters[0].range;
+            moveCharacters();
+        }
     });
 
     // Clicking this means the user selected the OGRE character
     $("#ogre").click(function() {
-        pick = "picked";
-        char = allCharacters[1].char;
-        attack = allCharacters[1].attack;
-        hp = allCharacters[1].hp;
-        scav = allCharacters[1].scav;
-        range = allCharacters[1].range;
-        moveCharacters();
+        if (pick != "picked") {
+            pick = "picked";
+            char = allCharacters[1].char;
+            attack = allCharacters[1].attack;
+            hp = allCharacters[1].hp;
+            scav = allCharacters[1].scav;
+            range = allCharacters[1].range;
+            moveCharacters();
+        }
+        
     });
 
     // Clicking this means the user selected the ELF character
     $("#elf").click(function() {
-        pick = "picked";
-        char = allCharacters[2].char;
-        attack = allCharacters[2].attack;
-        hp = allCharacters[2].hp;
-        scav = allCharacters[2].scav;
-        range = allCharacters[2].range;
-        moveCharacters();
+        if (pick != "picked") {
+            pick = "picked";
+            char = allCharacters[2].char;
+            attack = allCharacters[2].attack;
+            hp = allCharacters[2].hp;
+            scav = allCharacters[2].scav;
+            range = allCharacters[2].range;
+            moveCharacters();
+        }
     });
 
     // The user clicks and places a character on ROW1
@@ -160,10 +170,12 @@ createEmptyBoxes();
         $("#r" + row + "s1").attr("range", range);
 
         // Adds a heart icon and the character's health
-        $("#statsR" + row + "s1").html($('<img id="heart" src="images/heart.png" />'));
-        $("#statsR" + row + "s1").append(hp);
         $("#statsR" + row + "s1").append($('<img id="heart" src="images/fight.ico" />'));
         $("#statsR" + row + "s1").append(attack);
+        $("#underStatsR" + row + "s1").html($('<img id="heart" src="images/heart.png" />'));
+        $("#underStatsR" + row + "s1").append(hp);
+        // $("#statsR" + row + "s1").append($('<img id="heart" src="images/fight.ico" />'));
+        // $("#statsR" + row + "s1").append(attack);
 
         // Setting attributes to the newChar object
         newChar.char = char;
@@ -206,8 +218,8 @@ createEmptyBoxes();
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("attack", charArray[j].attack);
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("scav", charArray[j].scav);
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("range", charArray[j].range);
-                $("#statsR" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).html($('<img id="heart" src="images/heart.png" />'));
-                $("#statsR" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).append(charArray[j].hp);
+                $("#underStatsR" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).html($('<img id="heart" src="images/heart.png" />'));
+                $("#underStatsR" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).append(charArray[j].hp);
                 $("#statsR" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).append($('<img id="heart" src="images/fight.ico" />'));
                 $("#statsR" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).append(charArray[j].attack);
 
@@ -219,6 +231,7 @@ createEmptyBoxes();
                 $("#r" + charArray[j].row + "s" + charArray[j].position).attr("scav", 0);
                 $("#r" + charArray[j].row + "s" + charArray[j].position).attr("range", 0);
                 $("#statsR" + charArray[j].row + "s" + charArray[j].position).empty();
+                $("#underStatsR" + charArray[j].row + "s" + charArray[j].position).empty();
 
                 charArray[j].position = Number(charArray[j].position) + 1;
                 
@@ -260,10 +273,10 @@ createEmptyBoxes();
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("attack", enemyCharArray[k].attack);
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("scav", enemyCharArray[k].scav);
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("range", enemyCharArray[k].range);
-                $("#enemyStatsR" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).html($('<img id="heart" src="images/heart.png" />'));
-                $("#enemyStatsR" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).append(enemyCharArray[k].hp);
                 $("#enemyStatsR" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).append($('<img id="heart" src="images/fight.ico" />'));
                 $("#enemyStatsR" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).append(enemyCharArray[k].attack);
+                $("#underEnemyStatsR" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).html($('<img id="heart" src="images/heart.png" />'));
+                $("#underEnemyStatsR" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).append(enemyCharArray[k].hp);
 
                 // Empties the current box for the ENEMY
                 $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
@@ -273,6 +286,7 @@ createEmptyBoxes();
                 $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("scav", 0);
                 $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("range", 0);
                 $("#enemyStatsR" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).empty();
+                $("#underEnemyStatsR" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).empty();
 
                 enemyCharArray[k].position = Number(enemyCharArray[k].position) + 1;
 
@@ -312,10 +326,10 @@ createEmptyBoxes();
             $("#enemyr" + enemyRow + "s1").attr("hp", allCharacters[enemyCharNumber].hp);
             $("#enemyr" + enemyRow + "s1").attr("attack", allCharacters[enemyCharNumber].attack);
             $("#enemyr" + enemyRow + "s1").attr("scav", allCharacters[enemyCharNumber].scav);
-            $("#enemyStatsR" + enemyRow + "s1").html($('<img id="heart" src="images/heart.png" />'));
-            $("#enemyStatsR" + enemyRow + "s1").append(allCharacters[enemyCharNumber].hp);
             $("#enemyStatsR" + enemyRow + "s1").append($('<img id="heart" src="images/fight.ico" />'));
             $("#enemyStatsR" + enemyRow + "s1").append(allCharacters[enemyCharNumber].attack);
+            $("#underEnemyStatsR" + enemyRow + "s1").html($('<img id="heart" src="images/heart.png" />'));
+            $("#underEnemyStatsR" + enemyRow + "s1").append(allCharacters[enemyCharNumber].hp);
 
             // Setting attributes to the newChar object
             newEnemyChar.char = allCharacters[enemyCharNumber].char;
