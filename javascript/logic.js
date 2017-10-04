@@ -177,7 +177,7 @@ createEmptyBoxes();
         charArray.push(newChar);
         row = 0;
 
-        console.log(charArray);
+        // console.log(charArray);
     }
 
     // This runs everytime the user selects a new character
@@ -285,30 +285,42 @@ createEmptyBoxes();
     }
 
     function enemyPlacesCharacter() {
-        var enemyCharNumber = Math.floor((Math.random() * 3));
-        var enemyRow = Math.floor((Math.random() * 4) + 1);
+        let enemyCharNumber = Math.floor((Math.random() * 3));
+        let enemyRow = Math.floor((Math.random() * 4) + 1);
+        let prevEnemyRow = 0;
 
-        newEnemyChar = {};
-     
-        $("#enemyr" + enemyRow + "s1").attr("src", 'images/' + allCharacters[enemyCharNumber].char + '.jpeg');
-        $("#enemyr" + enemyRow + "s1").attr("occupied", true);
-        $("#enemyr" + enemyRow + "s1").attr("hp", allCharacters[enemyCharNumber].hp);
-        $("#enemyr" + enemyRow + "s1").attr("attack", allCharacters[enemyCharNumber].attack);
-        $("#enemyr" + enemyRow + "s1").attr("scav", allCharacters[enemyCharNumber].scav);
-        $("#enemyStatsR" + enemyRow + "s1").html($('<img id="heart" src="images/heart.png" />'));
-        $("#enemyStatsR" + enemyRow + "s1").append(allCharacters[enemyCharNumber].hp);
-        // Setting attributes to the newChar object
-        newEnemyChar.char = allCharacters[enemyCharNumber].char;
-        newEnemyChar.row = enemyRow;
-        newEnemyChar.pic = 'images/' + allCharacters[enemyCharNumber].char + '.jpeg';
-        newEnemyChar.attack = allCharacters[enemyCharNumber].attack;
-        newEnemyChar.hp = allCharacters[enemyCharNumber].hp;
-        newEnemyChar.scav = allCharacters[enemyCharNumber].scav;
-        newEnemyChar.position = 1;
-        newEnemyChar.atBeans = false;
-        newEnemyChar.inRange = false;
-        enemyCharArray.push(newEnemyChar);
-        // console.log(enemyCharArray);
+        // Makes sure the computer doesn't enter a character on the same row as previous
+        if (enemyCharArray.length < 1) {
+            prevEnemyRow = 0;
+        } else {
+            prevEnemyRow = enemyCharArray[enemyCharArray.length-1].row;
+        }
+
+        if (prevEnemyRow === enemyRow) {
+            enemyPlacesCharacter();
+        } else {
+            newEnemyChar = {};
+        
+            $("#enemyr" + enemyRow + "s1").attr("src", 'images/' + allCharacters[enemyCharNumber].char + '.jpeg');
+            $("#enemyr" + enemyRow + "s1").attr("occupied", true);
+            $("#enemyr" + enemyRow + "s1").attr("hp", allCharacters[enemyCharNumber].hp);
+            $("#enemyr" + enemyRow + "s1").attr("attack", allCharacters[enemyCharNumber].attack);
+            $("#enemyr" + enemyRow + "s1").attr("scav", allCharacters[enemyCharNumber].scav);
+            $("#enemyStatsR" + enemyRow + "s1").html($('<img id="heart" src="images/heart.png" />'));
+            $("#enemyStatsR" + enemyRow + "s1").append(allCharacters[enemyCharNumber].hp);
+            // Setting attributes to the newChar object
+            newEnemyChar.char = allCharacters[enemyCharNumber].char;
+            newEnemyChar.row = enemyRow;
+            newEnemyChar.pic = 'images/' + allCharacters[enemyCharNumber].char + '.jpeg';
+            newEnemyChar.attack = allCharacters[enemyCharNumber].attack;
+            newEnemyChar.hp = allCharacters[enemyCharNumber].hp;
+            newEnemyChar.scav = allCharacters[enemyCharNumber].scav;
+            newEnemyChar.position = 1;
+            newEnemyChar.atBeans = false;
+            newEnemyChar.inRange = false;
+            enemyCharArray.push(newEnemyChar);
+            // console.log(enemyCharArray);
+        }
     }
 
 });
