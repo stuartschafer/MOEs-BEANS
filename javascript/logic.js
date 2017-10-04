@@ -7,8 +7,11 @@ $(document).ready(function() {
     let hp = 0;
     let scav = 0;
     let scavengeRow = 0;
-    // let allCharacters = ["mage", "ogre", "elf"];
-    let allCharacters = [
+    let newHP = 0;
+    let newAttack = 0;
+    let newScav = 0;
+    
+    const allCharacters = [
         { char: "mage",
         attack: 3,
         hp: 2,
@@ -43,9 +46,9 @@ createEmptyBoxes();
     function createEmptyBoxes() {
         for (var i = 1; i < 5; i++) {
             for (var j = 1; j < 28; j++) {
-                $("#row" + i).append('<img id="r' + i + 's' + j + '" class="emptyBox" occupied=false />');
+                $("#row" + i).append('<img id="r' + i + 's' + j + '" class="emptyBox" hp=0 attack=0 scav=0 occupied=false />');
                 $("#r" + i + "s" + j).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
-                $("#enemyrow" + i).prepend('<img id="enemyr' + i + 's' + j + '" class="emptyBox" occupied=false />');
+                $("#enemyrow" + i).prepend('<img id="enemyr' + i + 's' + j + '" class="emptyBox" hp=0 attack=0 scav=0 occupied=false />');
                 $("#enemyr" + i + "s" + j).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
             }      
         }
@@ -115,6 +118,9 @@ createEmptyBoxes();
         $("#messages").html("Please select a character");
         pick = "";
         $("#r" + row + "s1").attr("src", 'images/' + char + '.jpeg');
+        $("#r" + row + "s1").attr("hp", hp);
+        $("#r" + row + "s1").attr("attack", attack);
+        $("#r" + row + "s1").attr("scav", scav);
         $("#r" + row + "s1").attr("occupied", true);
         // Setting attributes to the newChar object
         newChar.char = char;
@@ -143,10 +149,20 @@ createEmptyBoxes();
             let isSpaceAheadOccupied = $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("occupied");
             // This moves all characters ahead 1 space BUT only if the space ahead of it is NOT occupied
             if (isSpaceAheadOccupied === "false") {
-                $("#r" + charArray[j].row + "s" + charArray[j].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
-                $("#r" + charArray[j].row + "s" + charArray[j].position).attr("occupied", false);
+                // Change next box for the PLAYER to new values
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("src", charArray[j].pic);
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("occupied", true);
+                $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("hp", charArray[j].hp);
+                $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("attack", charArray[j].attack);
+                $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("scav", charArray[j].scav);
+
+                // Change current box for the PLAYER to old values
+                $("#r" + charArray[j].row + "s" + charArray[j].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
+                $("#r" + charArray[j].row + "s" + charArray[j].position).attr("occupied", false);
+                $("#r" + charArray[j].row + "s" + charArray[j].position).attr("hp", 0);
+                $("#r" + charArray[j].row + "s" + charArray[j].position).attr("attack", 0);
+                $("#r" + charArray[j].row + "s" + charArray[j].position).attr("scav", 0);
+
                 charArray[j].position = Number(charArray[j].position) + 1;
                 
                 if (charArray[j].position === 27) {
@@ -195,6 +211,9 @@ createEmptyBoxes();
      
         $("#enemyr" + enemyRow + "s1").attr("src", 'images/' + allCharacters[enemyCharNumber].char + '.jpeg');
         $("#enemyr" + enemyRow + "s1").attr("occupied", true);
+        $("#enemyr" + enemyRow + "s1").attr("hp", allCharacters[enemyCharNumber].hp);
+        $("#enemyr" + enemyRow + "s1").attr("attack", allCharacters[enemyCharNumber].attack);
+        $("#enemyr" + enemyRow + "s1").attr("scav", allCharacters[enemyCharNumber].scav);
         // Setting attributes to the newChar object
         newEnemyChar.char = allCharacters[enemyCharNumber].char;
         newEnemyChar.row = enemyRow;
