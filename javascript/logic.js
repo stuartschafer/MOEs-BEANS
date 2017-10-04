@@ -10,6 +10,8 @@ $(document).ready(function() {
     let newHP = 0;
     let newAttack = 0;
     let newScav = 0;
+    let beansCollected = 0;
+    let enemyBeansCollected = 0;
     
     const allCharacters = [
         { char: "mage",
@@ -174,8 +176,6 @@ createEmptyBoxes();
         $("#statsR" + row + "s1").append(attack);
         $("#underStatsR" + row + "s1").html($('<img id="heart" src="images/heart.png" />'));
         $("#underStatsR" + row + "s1").append(hp);
-        // $("#statsR" + row + "s1").append($('<img id="heart" src="images/fight.ico" />'));
-        // $("#statsR" + row + "s1").append(attack);
 
         // Setting attributes to the newChar object
         newChar.char = char;
@@ -199,8 +199,10 @@ createEmptyBoxes();
         for (var j = 0; j < charArray.length; j++) {
 
             // Harvests beans for the PLAYER
-            if (charArray[j].atBeans === "true") {
-                // harvest beans
+            if (charArray[j].atBeans === true) {
+                let scavenge = charArray[j].scav;
+                beansCollected = beansCollected + scavenge;
+                $("#yourBeans").html(beansCollected);
             }
 
             // PLAYER is within range to attack enemy
@@ -235,7 +237,7 @@ createEmptyBoxes();
 
                 charArray[j].position = Number(charArray[j].position) + 1;
                 
-                if (charArray[j].position === 27) {
+                if (charArray[j].position === 19) {
                     charArray[j].atBeans = true;
                 }
 
@@ -254,8 +256,10 @@ createEmptyBoxes();
         for (var k = 0; k < enemyCharArray.length; k++) {
             
             // This will be for the enemy harvesting beans
-            if (enemyCharArray[k].atBeans === "true") {
-                // ENEMY harvest beans
+            if (enemyCharArray[k].atBeans === true) {
+                let scavenge = enemyCharArray[k].scav;
+                enemyBeansCollected = enemyBeansCollected + scavenge;
+                $("#enemyBeans").html(enemyBeansCollected);
             }
 
             // ENEMY is within range to attack player
@@ -290,7 +294,7 @@ createEmptyBoxes();
 
                 enemyCharArray[k].position = Number(enemyCharArray[k].position) + 1;
 
-                if (enemyCharArray[k].position === 27) {
+                if (enemyCharArray[k].position === 19) {
                     enemyCharArray[k].atBeans = true;
                 }
            }
