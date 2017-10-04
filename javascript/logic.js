@@ -15,17 +15,20 @@ $(document).ready(function() {
         { char: "mage",
         attack: 3,
         hp: 2,
-        scav: 1
+        scav: 1,
+        range: 4
         },
         { char: "ogre",
         attack: 1,
         hp: 6,
-        scav: 3
+        scav: 3,
+        range: 2
         },
         { char: "elf",
         attack: 2,
         hp: 4,
-        scav: 2
+        scav: 2,
+        range: 3
         }
     ];
 
@@ -46,41 +49,69 @@ createEmptyBoxes();
     function createEmptyBoxes() {
         for (var i = 1; i < 5; i++) {
             for (var j = 1; j < 28; j++) {
-                $("#row" + i).append('<img id="r' + i + 's' + j + '" class="emptyBox" hp=0 attack=0 scav=0 occupied=false />');
+
+                let characterImage = $('<img id="r' + i + 's' + j + '" class="emptyBox" hp=0 attack=0 scav=0 range=0 occupied=false />');
+                let enemyCharacterImage = $('<img id="enemyr' + i + 's' + j + '" class="emptyBox" hp=0 attack=0 scav=0 range=0 occupied=false />');
+
+                // Chnages the picture to have a transparent background
                 $("#r" + i + "s" + j).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
-                $("#enemyrow" + i).prepend('<img id="enemyr' + i + 's' + j + '" class="emptyBox" hp=0 attack=0 scav=0 occupied=false />');
                 $("#enemyr" + i + "s" + j).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
-            }      
+
+                // Adds an area for stats
+                let statArea = $('<div id="statsR' + i + 's' + j + '" />');
+                let enemyStatArea = $('<div id="enemyStatsR' + i + 's' + j + '" />');
+                $(statArea).css({"text-align":"center", "font-size":"15px", "width":"20", "display":"block"});
+                $(enemyStatArea).css({"text-align":"center", "font-size":"15px", "width":"20", "display":"block"});
+                
+                // Combines the pic and stats on the same line
+                let imageAndStats = $("<div>");
+                let enemyImageAndStats = $("<div>");
+                $(imageAndStats).css({"float":"left"});
+                $(enemyImageAndStats).css({"float":"left"});
+                $(imageAndStats).append(characterImage, statArea);
+                $(enemyImageAndStats).append(enemyCharacterImage, enemyStatArea);
+
+                // Adds it to the corresponding row on the page
+                $("#row" + i).append(imageAndStats);
+                $("#enemyrow" + i).prepend(enemyImageAndStats);
+            }       
         }
     }
 
+    // Clicking this means the user selected the MAGE character
     $("#mage").click(function() {
         pick = "picked";
         char = allCharacters[0].char;
         attack = allCharacters[0].attack;
         hp = allCharacters[0].hp;
         scav = allCharacters[0].scav;
+        range = allCharacters[0].range;
         moveCharacters();
     });
 
+    // Clicking this means the user selected the OGRE character
     $("#ogre").click(function() {
         pick = "picked";
         char = allCharacters[1].char;
         attack = allCharacters[1].attack;
         hp = allCharacters[1].hp;
         scav = allCharacters[1].scav;
+        range = allCharacters[1].range;
         moveCharacters();
     });
 
+    // Clicking this means the user selected the ELF character
     $("#elf").click(function() {
         pick = "picked";
         char = allCharacters[2].char;
         attack = allCharacters[2].attack;
         hp = allCharacters[2].hp;
         scav = allCharacters[2].scav;
+        range = allCharacters[2].range;
         moveCharacters();
     });
 
+    // The user clicks and places a character on ROW1
     $(".row1").click(function() {
         row = 1;
         if (pick === "picked") {
@@ -88,6 +119,7 @@ createEmptyBoxes();
         }
     });
 
+    // The user clicks and places a character on ROW2
     $(".row2").click(function() {
         row = 2;
         if (pick === "picked") {
@@ -95,6 +127,7 @@ createEmptyBoxes();
         }
     });
 
+    // The user clicks and places a character on ROW3
     $(".row3").click(function() {
         row = 3;
         if (pick === "picked") {
@@ -102,6 +135,7 @@ createEmptyBoxes();
         }
     });
 
+    // The user clicks and places a character on ROW4
     $(".row4").click(function() {
         row = 4;
         if (pick === "picked") {
@@ -109,6 +143,7 @@ createEmptyBoxes();
         }
     });
 
+    // This runs when the user selects a row
     function rowChosen() {
         moveCharacters();
         enemyPlacesCharacter();
@@ -122,6 +157,9 @@ createEmptyBoxes();
         $("#r" + row + "s1").attr("attack", attack);
         $("#r" + row + "s1").attr("scav", scav);
         $("#r" + row + "s1").attr("occupied", true);
+        $("#r" + row + "s1").attr("range", range);
+        $("#statsR" + row + "s1").html(hp);
+
         // Setting attributes to the newChar object
         newChar.char = char;
         newChar.row = row;
@@ -129,25 +167,32 @@ createEmptyBoxes();
         newChar.attack = attack;
         newChar.hp = hp;
         newChar.scav = scav;
+        newChar.range = range;
         newChar.position = 1;
         newChar.atBeans = false;
+        newChar.inRange = false;
         charArray.push(newChar);
         row = 0;
 
-        // console.log(charArray);
+        console.log(charArray);
     }
 
-
+    // This runs everytime the user selects a new character
     function moveCharacters() {
         for (var j = 0; j < charArray.length; j++) {
 
-            // Harvests beans for the player
+            // Harvests beans for the PLAYER
             if (charArray[j].atBeans === "true") {
-                // harvest beans for player here
+                // harvest beans
+            }
+
+            // PLAYER is within range to attack enemy
+            if (charArray[j].inRange === "true") {
+                // PLAYER attack
             }
 
             let isSpaceAheadOccupied = $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("occupied");
-            // This moves all characters ahead 1 space BUT only if the space ahead of it is NOT occupied
+            // This moves all PLAYER characters closer to the beans by 1 space BUT only if the space ahead of it is NOT occupied
             if (isSpaceAheadOccupied === "false") {
                 // Change next box for the PLAYER to new values
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("src", charArray[j].pic);
@@ -155,6 +200,8 @@ createEmptyBoxes();
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("hp", charArray[j].hp);
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("attack", charArray[j].attack);
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("scav", charArray[j].scav);
+                $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("range", charArray[j].range);
+                $("#statsR" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).text(charArray[j].hp);
 
                 // Change current box for the PLAYER to old values
                 $("#r" + charArray[j].row + "s" + charArray[j].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
@@ -162,11 +209,21 @@ createEmptyBoxes();
                 $("#r" + charArray[j].row + "s" + charArray[j].position).attr("hp", 0);
                 $("#r" + charArray[j].row + "s" + charArray[j].position).attr("attack", 0);
                 $("#r" + charArray[j].row + "s" + charArray[j].position).attr("scav", 0);
+                $("#r" + charArray[j].row + "s" + charArray[j].position).attr("range", 0);
+                $("#statsR" + charArray[j].row + "s" + charArray[j].position).html("");
 
                 charArray[j].position = Number(charArray[j].position) + 1;
                 
                 if (charArray[j].position === 27) {
                     charArray[j].atBeans = true;
+                }
+
+                if (charArray[j].range === 4 && charArray[j].position === 24) {
+                    charArray[j].inRange = true;
+                } else if (charArray[j].range === 3 && charArray[j].position === 25) {
+                    charArray[j].inRange = true;
+                } else if (charArray[j].range === 2 && charArray[j].position === 26) {
+                    charArray[j].inRange = true;
                 }
            }
         }
@@ -180,8 +237,13 @@ createEmptyBoxes();
                 // ENEMY harvest beans
             }
 
+            // ENEMY is within range to attack player
+            if (enemyCharArray[k].inRange === "true") {
+                // ENEMY attack
+            }
+
             let isSpaceAheadOccupiedforEnemy = $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("occupied");
-            // This moves the enemy's charaters ahead
+            // This moves all ENEMY characters closer to the beans by 1 space BUT only if the space ahead of it is NOT occupied
             if (isSpaceAheadOccupiedforEnemy === "false") {
                 // Change next box for the ENEMY to new values
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("src", enemyCharArray[k].pic);
@@ -189,6 +251,8 @@ createEmptyBoxes();
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("hp", enemyCharArray[k].hp);
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("attack", enemyCharArray[k].attack);
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("scav", enemyCharArray[k].scav);
+                $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("range", enemyCharArray[k].range);
+                $("#enemyStatsR" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).html(enemyCharArray[k].hp);
 
                 // Change current box for the ENEMY to old values
                 $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
@@ -196,6 +260,8 @@ createEmptyBoxes();
                 $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("hp", 0);
                 $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("attack", 0);
                 $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("scav", 0);
+                $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("range", 0);
+                $("#enemyStatsR" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).html("");
 
                 enemyCharArray[k].position = Number(enemyCharArray[k].position) + 1;
 
@@ -224,6 +290,7 @@ createEmptyBoxes();
         $("#enemyr" + enemyRow + "s1").attr("hp", allCharacters[enemyCharNumber].hp);
         $("#enemyr" + enemyRow + "s1").attr("attack", allCharacters[enemyCharNumber].attack);
         $("#enemyr" + enemyRow + "s1").attr("scav", allCharacters[enemyCharNumber].scav);
+        $("#enemyStatsR" + enemyRow + "s1").html(allCharacters[enemyCharNumber].hp);
         // Setting attributes to the newChar object
         newEnemyChar.char = allCharacters[enemyCharNumber].char;
         newEnemyChar.row = enemyRow;
@@ -233,8 +300,9 @@ createEmptyBoxes();
         newEnemyChar.scav = allCharacters[enemyCharNumber].scav;
         newEnemyChar.position = 1;
         newEnemyChar.atBeans = false;
+        newEnemyChar.inRange = false;
         enemyCharArray.push(newEnemyChar);
-        console.log(enemyCharArray);
+        // console.log(enemyCharArray);
     }
 
 });

@@ -1,6 +1,6 @@
 .place {
     position: absolute;
-    height: 43px;
+    height: 20.5%;
     z-index: -10;
 }
 
@@ -27,7 +27,7 @@
     z-index: 10;
     margin-left: 42.2%;
     width: 2%;
-    height: 49%;
+    height: 84.6%;
     /* background-color: red; */
     
 }
@@ -45,16 +45,15 @@
 }
 
 #enemyMountains {
-    z-index: 30;   
+    /* z-index: 30;     */
     width: 9.4%;
-    height: 11.3%;
     margin-left: 77%;
     background-color: grey;
 }
 
-.board {
-    height: 50px;
-}
+/* .board {
+    height: 100px;
+} */
 
 .no-gutters {
     border: 2px black solid;
@@ -93,10 +92,14 @@
     margin-bottom: 2px;
     border-radius: 5px;
     border: 2px solid black;
-    height: 38px;
+    height: 40px;
     width: 20px;
 }
 
 .enemyRow {
     margin-left: 2.35%;
+}
+
+.row {
+    height: 80px;
 }
