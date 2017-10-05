@@ -212,8 +212,8 @@ createEmptyBoxes();
             }
 
             // PLAYER is within range to attack enemy
-            if (charArray[0].inRange === true) {
-                // checkIfFight();    
+            if (charArray[j].inRange === true) {
+                checkIfFight(j);    
             }
 
             let isSpaceAheadOccupied = $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("occupied");
@@ -316,10 +316,12 @@ createEmptyBoxes();
                 }
            }
         }
-
-        if (charArray.length > 0) {
-            if (charArray[0].inRange === true) {
-                checkIfFight();
+// FIX BEANS FOR ENEMY - they do not harvest even if they are next to the beans
+        for (var j = 0; j < charArray.length; j++) {
+            if (charArray.length > 0) {
+                if (charArray[j].inRange === true) {
+                    checkIfFight(j);
+                }
             }
         }
         
@@ -377,46 +379,47 @@ createEmptyBoxes();
         }
     }
 
-    function checkIfFight() {
-        let enemySpot19 = $("#enemyr" + charArray[0].row + "s19").attr("occupied");
-        let enemySpot18 = $("#enemyr" + charArray[0].row + "s18").attr("occupied");
-        let enemySpot17 = $("#enemyr" + charArray[0].row + "s17").attr("occupied");
-        let enemySpot16 = $("#enemyr" + charArray[0].row + "s16").attr("occupied");
+    function checkIfFight(j) {
+        console.log(j);
+        let enemySpot19 = $("#enemyr" + charArray[j].row + "s19").attr("occupied");
+        let enemySpot18 = $("#enemyr" + charArray[j].row + "s18").attr("occupied");
+        let enemySpot17 = $("#enemyr" + charArray[j].row + "s17").attr("occupied");
+        let enemySpot16 = $("#enemyr" + charArray[j].row + "s16").attr("occupied");
 
         if (enemySpot19 === "true") {
-            enemy = $("#enemyr" + charArray[0].row + "s19").attr("card");
+            enemy = $("#enemyr" + charArray[j].row + "s19").attr("card");
             spot = 19;
         } else if (enemySpot18 === "true") {
-            enemy = $("#enemyr" + charArray[0].row + "s18").attr("card");
+            enemy = $("#enemyr" + charArray[j].row + "s18").attr("card");
             spot = 18;
         } else if (enemySpot17 === "true") {
-            enemy = $("#enemyr" + charArray[0].row + "s17").attr("card");
+            enemy = $("#enemyr" + charArray[j].row + "s17").attr("card");
             spot = 17;
         } else if (enemySpot16 === "true") {
-            enemy = $("#enemyr" + charArray[0].row + "s16").attr("card");
+            enemy = $("#enemyr" + charArray[j].row + "s16").attr("card");
             spot = 16;
         }
 
         console.log(enemy);
-        if (charArray[0].position === 19 && enemySpot19 === "true") {
+        if (charArray[j].position === 19 && enemySpot19 === "true") {
             prob = 100;
-            fight();
-        } else if (charArray[0].range === 4 && (charArray[0].position === 19 && enemySpot18 === "true" || charArray[0].position === 18 && enemySpot19 === "true")) {
+            fight(j);
+        } else if (charArray[j].range === 4 && (charArray[j].position === 19 && enemySpot18 === "true" || charArray[j].position === 18 && enemySpot19 === "true")) {
             prob = 75;
-            fight();
-        } else if (charArray[0].range === 4 && (charArray[0].position === 19 && enemySpot17 === "true" || charArray[0].position === 18 && enemySpot18 === "true" || charArray[0].position === 17 && enemySpot19 === "true")) {
+            fight(j);
+        } else if (charArray[j].range === 4 && (charArray[j].position === 19 && enemySpot17 === "true" || charArray[j].position === 18 && enemySpot18 === "true" || charArray[j].position === 17 && enemySpot19 === "true")) {
             prob = 50;
-            fight();
-        } else if (charArray[0].range === 4 && (charArray[0].position === 19 && enemySpot16 === "true" || charArray[0].position === 18 && enemySpot17 === "true" || charArray[0].position === 17 && enemySpot18 === "true" || charArray[0].position === 16 && enemySpot19 === "true")) {
+            fight(j);
+        } else if (charArray[j].range === 4 && (charArray[j].position === 19 && enemySpot16 === "true" || charArray[j].position === 18 && enemySpot17 === "true" || charArray[j].position === 17 && enemySpot18 === "true" || charArray[j].position === 16 && enemySpot19 === "true")) {
             prob = 25;
-            fight();
+            fight(j);
         }
     }
         
-    function fight() {
+    function fight(j) {
         // This finds where the card on the object matches the card on the box
         for (var i = 0; i < enemyCharArray.length; i++) {
-            if (enemyCharArray[i].card.toString() === $("#enemyr" + charArray[0].row + "s" + spot).attr("card")) {
+            if (enemyCharArray[i].card.toString() === $("#enemyr" + charArray[j].row + "s" + spot).attr("card")) {
                 enemyPlace = i;
             }
         }
