@@ -97,10 +97,16 @@
 .stats {
     height: 20px;
     margin-top: -5px;
+    color: white;
+}
+
+.underStats {
+    color: white;
 }
 
 .bottomStats {
     height: 20px;
+    color: white;
 }
 
 .enemyRow {

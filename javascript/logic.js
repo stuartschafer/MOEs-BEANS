@@ -206,8 +206,8 @@ createEmptyBoxes();
             }
 
             // PLAYER is within range to attack enemy
-            if (charArray[j].inRange === "true") {
-                // PLAYER attack
+            if (charArray[j].inRange === true) {
+                console.log(charArray[j].char + " on row " + charArray[j].row + " is within striking distance");
             }
 
             let isSpaceAheadOccupied = $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("occupied");
@@ -241,11 +241,11 @@ createEmptyBoxes();
                     charArray[j].atBeans = true;
                 }
 
-                if (charArray[j].range === 4 && charArray[j].position === 24) {
+                if (charArray[j].range === 4 && charArray[j].position === 16) {
                     charArray[j].inRange = true;
-                } else if (charArray[j].range === 3 && charArray[j].position === 25) {
+                } else if (charArray[j].range === 3 && charArray[j].position === 17) {
                     charArray[j].inRange = true;
-                } else if (charArray[j].range === 2 && charArray[j].position === 26) {
+                } else if (charArray[j].range === 2 && charArray[j].position === 18) {
                     charArray[j].inRange = true;
                 }
            }
