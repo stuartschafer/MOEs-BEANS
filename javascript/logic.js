@@ -12,6 +12,13 @@ $(document).ready(function() {
     let newScav = 0;
     let beansCollected = 0;
     let enemyBeansCollected = 0;
+    let hit = "";
+    let prob = 0;
+    let enemy = 0;
+    let enemyCard = 0;
+    let playerCard = 0;
+    let spot = 0;
+    let enemyPlace = 0;
     
     const allCharacters = [
         { char: "mage",
@@ -43,7 +50,7 @@ $(document).ready(function() {
 
 
     $(".moe").hide();
-    $("#messages").html("Please select a character");
+    // $("#messages").html("Please select a character");
     
 createEmptyBoxes();
 
@@ -52,12 +59,8 @@ createEmptyBoxes();
         for (var i = 1; i < 5; i++) {
             for (var j = 1; j < 20; j++) {
 
-                let characterImage = $('<img id="r' + i + 's' + j + '" class="emptyBox" hp=0 attack=0 scav=0 range=0 occupied=false />');
-                let enemyCharacterImage = $('<img id="enemyr' + i + 's' + j + '" class="emptyBox" hp=0 attack=0 scav=0 range=0 occupied=false />');
-
-                // Changes the picture to have a transparent background
-                $("#r" + i + "s" + j).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
-                $("#enemyr" + i + "s" + j).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
+                let characterImage = $('<img id="r' + i + 's' + j + '" class="emptyBox" hp=0 attack=0 scav=0 range=0 card=0 occupied=false src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />');
+                let enemyCharacterImage = $('<img id="enemyr' + i + 's' + j + '" class="emptyBox" hp=0 attack=0 scav=0 range=0 card=0 occupied=false src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />');
 
                 // Adds an area for stats
                 let statArea = $('<div id="statsR' + i + 's' + j + '" class="stats" />');
@@ -162,7 +165,7 @@ createEmptyBoxes();
 
         newChar = {};
         $(".moeChoices").fadeIn("slow");
-        $("#messages").html("Please select a character");
+        // $("#messages").html("Please select a character");
         pick = "";
         $("#r" + row + "s1").attr("src", 'images/' + char + '.jpeg');
         $("#r" + row + "s1").attr("hp", hp);
@@ -176,6 +179,8 @@ createEmptyBoxes();
         $("#statsR" + row + "s1").append(attack);
         $("#underStatsR" + row + "s1").html($('<img id="heart" src="images/heart.png" />'));
         $("#underStatsR" + row + "s1").append(hp);
+        playerCard++;
+        $("#r" + row + "s1").attr("card", playerCard);
 
         // Setting attributes to the newChar object
         newChar.char = char;
@@ -185,6 +190,7 @@ createEmptyBoxes();
         newChar.hp = hp;
         newChar.scav = scav;
         newChar.range = range;
+        newChar.card = playerCard;
         newChar.position = 1;
         newChar.atBeans = false;
         newChar.inRange = false;
@@ -206,8 +212,8 @@ createEmptyBoxes();
             }
 
             // PLAYER is within range to attack enemy
-            if (charArray[j].inRange === true) {
-                console.log(charArray[j].char + " on row " + charArray[j].row + " is within striking distance");
+            if (charArray[0].inRange === true) {
+                // checkIfFight();    
             }
 
             let isSpaceAheadOccupied = $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("occupied");
@@ -220,6 +226,7 @@ createEmptyBoxes();
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("attack", charArray[j].attack);
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("scav", charArray[j].scav);
                 $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("range", charArray[j].range);
+                $("#r" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).attr("card", $("#r" + charArray[j].row + "s" + charArray[j].position).attr("card"));
                 $("#underStatsR" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).html($('<img id="heart" src="images/heart.png" />'));
                 $("#underStatsR" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).append(charArray[j].hp);
                 $("#statsR" + charArray[j].row + "s" + (Number(charArray[j].position) + 1)).append($('<img id="heart" src="images/fight.ico" />'));
@@ -232,6 +239,7 @@ createEmptyBoxes();
                 $("#r" + charArray[j].row + "s" + charArray[j].position).attr("attack", 0);
                 $("#r" + charArray[j].row + "s" + charArray[j].position).attr("scav", 0);
                 $("#r" + charArray[j].row + "s" + charArray[j].position).attr("range", 0);
+                $("#r" + charArray[j].row + "s" + charArray[j].position).attr("card", 0);
                 $("#statsR" + charArray[j].row + "s" + charArray[j].position).empty();
                 $("#underStatsR" + charArray[j].row + "s" + charArray[j].position).empty();
 
@@ -241,24 +249,31 @@ createEmptyBoxes();
                     charArray[j].atBeans = true;
                 }
 
-                if (charArray[j].range === 4 && charArray[j].position === 16) {
+                if ((charArray[j].range === 4 && charArray[j].position === 16) || (charArray[j].range === 4 && charArray[j].position === 17) || (charArray[j].range === 4 && charArray[j].position === 18) || (charArray[j].range === 4 && charArray[j].position === 19)) {
+                    // console.log(charArray[j].char + " on row " + charArray[j].row + " spot " + charArray[j].position + " is within striking distance");
                     charArray[j].inRange = true;
-                } else if (charArray[j].range === 3 && charArray[j].position === 17) {
+                    // checkIfFight();
+                } else if ((charArray[j].range === 3 && charArray[j].position === 17) || (charArray[j].range === 3 && charArray[j].position === 18) || (charArray[j].range === 3 && charArray[j].position === 19)) {
+                    // console.log(charArray[j].char + " on row " + charArray[j].row + " spot " + charArray[j].position + " is within striking distance");
                     charArray[j].inRange = true;
-                } else if (charArray[j].range === 2 && charArray[j].position === 18) {
+                    // checkIfFight();
+                } else if ((charArray[j].range === 2 && charArray[j].position === 18) || (charArray[j].range === 2 && charArray[j].position === 19)) {
+                    // console.log(charArray[j].char + " on row " + charArray[j].row + " spot " + charArray[j].position + " is within striking distance");
                     charArray[j].inRange = true;
+                    // checkIfFight();
                 }
            }
         }
-
 
         // CANNOT use same k as above as both charArray and enemyCharArray may be a different qty
         for (var k = 0; k < enemyCharArray.length; k++) {
             
             // This will be for the enemy harvesting beans
             if (enemyCharArray[k].atBeans === true) {
-                let scavenge = enemyCharArray[k].scav;
-                enemyBeansCollected = enemyBeansCollected + scavenge;
+                let enemyScavenge = enemyCharArray[k].scav;
+                // console.log("enemyScavenge = " + enemyScavenge);
+                enemyBeansCollected = enemyBeansCollected + enemyScavenge;
+                // console.log("enemyBeansCollected = " + enemyBeansCollected);
                 $("#enemyBeans").html(enemyBeansCollected);
             }
 
@@ -277,6 +292,7 @@ createEmptyBoxes();
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("attack", enemyCharArray[k].attack);
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("scav", enemyCharArray[k].scav);
                 $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("range", enemyCharArray[k].range);
+                $("#enemyr" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).attr("card", $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("card"));
                 $("#enemyStatsR" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).append($('<img id="heart" src="images/fight.ico" />'));
                 $("#enemyStatsR" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).append(enemyCharArray[k].attack);
                 $("#underEnemyStatsR" + enemyCharArray[k].row + "s" + (Number(enemyCharArray[k].position) + 1)).html($('<img id="heart" src="images/heart.png" />'));
@@ -289,6 +305,7 @@ createEmptyBoxes();
                 $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("attack", 0);
                 $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("scav", 0);
                 $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("range", 0);
+                $("#enemyr" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).attr("card", 0);
                 $("#enemyStatsR" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).empty();
                 $("#underEnemyStatsR" + enemyCharArray[k].row + "s" + enemyCharArray[k].position).empty();
 
@@ -299,18 +316,26 @@ createEmptyBoxes();
                 }
            }
         }
+
+        if (charArray.length > 0) {
+            if (charArray[0].inRange === true) {
+                checkIfFight();
+            }
+        }
         
         for (var i=0; i<allCharacters.length; i++) {
             if (char != allCharacters[i].char) {
                 $("#" + allCharacters[i].char).fadeOut("slow");
             }
         }
-        $("#messages").html("Please select a row");
+        // $("#messages").html("Please select a row");
     }
 
     function enemyPlacesCharacter() {
         let enemyCharNumber = Math.floor((Math.random() * 3));
+        // let enemyCharNumber = 1;
         let enemyRow = Math.floor((Math.random() * 4) + 1);
+        // let enemyRow = 1;
         let prevEnemyRow = 0;
 
         // Makes sure the computer doesn't enter a character on the same row as previous
@@ -334,8 +359,10 @@ createEmptyBoxes();
             $("#enemyStatsR" + enemyRow + "s1").append(allCharacters[enemyCharNumber].attack);
             $("#underEnemyStatsR" + enemyRow + "s1").html($('<img id="heart" src="images/heart.png" />'));
             $("#underEnemyStatsR" + enemyRow + "s1").append(allCharacters[enemyCharNumber].hp);
+            enemyCard++;
+            $("#enemyr" + enemyRow + "s1").attr("card", enemyCard);
 
-            // Setting attributes to the newChar object
+            // Setting attributes to the newEnemyChar object
             newEnemyChar.char = allCharacters[enemyCharNumber].char;
             newEnemyChar.row = enemyRow;
             newEnemyChar.pic = 'images/' + allCharacters[enemyCharNumber].char + '.jpeg';
@@ -345,9 +372,96 @@ createEmptyBoxes();
             newEnemyChar.position = 1;
             newEnemyChar.atBeans = false;
             newEnemyChar.inRange = false;
+            newEnemyChar.card = enemyCard;
             enemyCharArray.push(newEnemyChar);
-            // console.log(enemyCharArray);
         }
+    }
+
+    function checkIfFight() {
+        let enemySpot19 = $("#enemyr" + charArray[0].row + "s19").attr("occupied");
+        let enemySpot18 = $("#enemyr" + charArray[0].row + "s18").attr("occupied");
+        let enemySpot17 = $("#enemyr" + charArray[0].row + "s17").attr("occupied");
+        let enemySpot16 = $("#enemyr" + charArray[0].row + "s16").attr("occupied");
+
+        if (enemySpot19 === "true") {
+            enemy = $("#enemyr" + charArray[0].row + "s19").attr("card");
+            spot = 19;
+        } else if (enemySpot18 === "true") {
+            enemy = $("#enemyr" + charArray[0].row + "s18").attr("card");
+            spot = 18;
+        } else if (enemySpot17 === "true") {
+            enemy = $("#enemyr" + charArray[0].row + "s17").attr("card");
+            spot = 17;
+        } else if (enemySpot16 === "true") {
+            enemy = $("#enemyr" + charArray[0].row + "s16").attr("card");
+            spot = 16;
+        }
+
+        console.log(enemy);
+        if (charArray[0].position === 19 && enemySpot19 === "true") {
+            prob = 100;
+            fight();
+        } else if (charArray[0].range === 4 && (charArray[0].position === 19 && enemySpot18 === "true" || charArray[0].position === 18 && enemySpot19 === "true")) {
+            prob = 75;
+            fight();
+        } else if (charArray[0].range === 4 && (charArray[0].position === 19 && enemySpot17 === "true" || charArray[0].position === 18 && enemySpot18 === "true" || charArray[0].position === 17 && enemySpot19 === "true")) {
+            prob = 50;
+            fight();
+        } else if (charArray[0].range === 4 && (charArray[0].position === 19 && enemySpot16 === "true" || charArray[0].position === 18 && enemySpot17 === "true" || charArray[0].position === 17 && enemySpot18 === "true" || charArray[0].position === 16 && enemySpot19 === "true")) {
+            prob = 25;
+            fight();
+        }
+    }
+        
+    function fight() {
+        // This finds where the card on the object matches the card on the box
+        for (var i = 0; i < enemyCharArray.length; i++) {
+            if (enemyCharArray[i].card.toString() === $("#enemyr" + charArray[0].row + "s" + spot).attr("card")) {
+                enemyPlace = i;
+            }
+        }
+        spot = 0;
+
+        let attackProb = Math.floor((Math.random() * 4) + 1);
+
+        if (prob === 25 && attackProb === 1) {
+            // Enemy loses 1 point of health
+            enemyCharArray[enemyPlace].hp = enemyCharArray[enemyPlace].hp - 1;
+        } else if (prob === 50 && (attackProb === 1 || attackProb === 2)) {
+            // Enemy loses 1 point of health
+            enemyCharArray[enemyPlace].hp = enemyCharArray[enemyPlace].hp - 1;
+        } else if (prob === 75 && (attackProb === 1 || attackProb === 2 || attackProb === 3)) {
+            // Enemy loses 2 points of health
+            enemyCharArray[enemyPlace].hp = enemyCharArray[enemyPlace].hp - 2;
+        } else if (prob === 100) {
+            // Enemy loses 3 points of health
+            enemyCharArray[enemyPlace].hp = enemyCharArray[enemyPlace].hp - 3;
+        } else {
+            console.log("MISS!");
+        }
+
+        if (enemyCharArray[enemyPlace].hp <= 0) {
+            // console.log("Character has died!");
+            // Eliminates the enemy from the screen and array
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("occupied", false);
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("hp", 0);
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("attack", 0);
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("scav", 0);
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("range", 0);
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("card", 0);
+            $("#enemyStatsR" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).empty();
+            $("#underEnemyStatsR" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).empty();
+            enemyCharArray.splice(enemyPlace, 1);
+
+        } else {
+            // Updates stats to the enemy's character
+            $("#underEnemyStatsR" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).empty();
+            $("#underEnemyStatsR" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).html($('<img id="heart" src="images/heart.png" />'));
+            $("#underEnemyStatsR" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).append(enemyCharArray[enemyPlace].hp);
+        }
+
+        prob = 0;
     }
 
 });

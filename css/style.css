@@ -43,7 +43,7 @@
 }
 
 #enemyMountains {
-    z-index: 30;     
+    /* z-index: 30;      */
     width: 8.9%;
     margin-left: 77.5%;
     background-color: grey;
