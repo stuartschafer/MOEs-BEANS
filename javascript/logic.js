@@ -317,6 +317,7 @@ createEmptyBoxes();
            }
         }
 // FIX BEANS FOR ENEMY - they do not harvest even if they are next to the beans
+// Add harvest enemy beans before fighting
         for (var j = 0; j < charArray.length; j++) {
             if (charArray.length > 0) {
                 if (charArray[j].inRange === true) {
