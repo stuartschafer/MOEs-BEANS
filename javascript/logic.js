@@ -14,6 +14,7 @@ $(document).ready(function() {
     let enemyBeansCollected = 0;
     let hit = "";
     let prob = 0;
+    let enemyProb = 0;
     let enemy = 0;
     let player = 0;
     let enemyCard = 0;
@@ -520,16 +521,16 @@ createEmptyBoxes();
         }
 
         if (enemyCharArray[k].position === 19 && playerSpot19 === "true") {
-            prob = 100;
+            enemyProb = 100;
             enemyFight(k);
         } else if (enemyCharArray[k].range === 4 && (enemyCharArray[k].position === 19 && playerSpot18 === "true" || enemyCharArray[k].position === 18 && playerSpot19 === "true")) {
-            prob = 75;
+            enemyProb = 75;
             enemyFight(k);
         } else if (enemyCharArray[k].range === 4 && (enemyCharArray[k].position === 19 && playerSpot17 === "true" || enemyCharArray[k].position === 18 && playerSpot18 === "true" || enemyCharArray[k].position === 17 && playerSpot19 === "true")) {
-            prob = 50;
+            enemyProb = 50;
             enemyFight(k);
         } else if (enemyCharArray[k].range === 4 && (enemyCharArray[k].position === 19 && playerSpot16 === "true" || enemyCharArray[k].position === 18 && playerSpot17 === "true" || enemyCharArray[k].position === 17 && playerSpot18 === "true" || enemyCharArray[k].position === 16 && playerSpot19 === "true")) {
-            prob = 25;
+            enemyProb = 25;
             enemyFight(k);
         }
     }
@@ -538,25 +539,25 @@ createEmptyBoxes();
         // This finds where the card on the object matches the card on the box
         for (var i = 0; i < charArray.length; i++) {
             // console.log(enemySpot);
-            console.log($("#enemyr" + charArray[i].row + "s" + enemySpot).attr("card"));
-            if (charArray[i].card.toString() === $("#enemyr" + charArray[i].row + "s" + enemySpot).attr("card")) {
+            // console.log($("#enemyr" + charArray[i].row + "s" + enemySpot).attr("card"));
+            if (charArray[i].card.toString() === $("#r" + enemyCharArray[k].row + "s" + enemySpot).attr("card")) {
                 playerPlace = i;
             }
         }
-        spot = 0;
+        enemySpot = 0;
 
-        let attackProb = Math.floor((Math.random() * 4) + 1);
+        let enemyAttackProb = Math.floor((Math.random() * 4) + 1);
 
-        if (prob === 25 && attackProb === 1) {
+        if (enemyProb === 25 && enemyAttackProb === 1) {
             // Enemy loses 1 point of health
             charArray[playerPlace].hp = charArray[playerPlace].hp - 1;
-        } else if (prob === 50 && (attackProb === 1 || attackProb === 2)) {
+        } else if (enemyProb === 50 && (enemyAttackProb === 1 || enemyAttackProb === 2)) {
             // Enemy loses 1 point of health
             charArray[playerPlace].hp = charArray[playerPlace].hp - 1;
-        } else if (prob === 75 && (attackProb === 1 || attackProb === 2 || attackProb === 3)) {
+        } else if (enemyProb === 75 && (enemyAttackProb === 1 || enemyAttackProb === 2 || enemyAttackProb === 3)) {
             // Enemy loses 2 points of health
             charArray[playerPlace].hp = charArray[playerPlace].hp - 2;
-        } else if (prob === 100) {
+        } else if (enemyProb === 100) {
             // Enemy loses 3 points of health
             charArray[playerPlace].hp = charArray[playerPlace].hp - 3;
         } else {
@@ -581,7 +582,7 @@ createEmptyBoxes();
             // Updates stats to the enemy's character
             $("#underStatsR" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).empty();
             $("#underStatsR" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).html($('<img id="heart" src="images/heart.png" />'));
-            $("#underStatsR" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).append(charArray[enemyPlace].hp);
+            $("#underStatsR" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).append(charArray[playerPlace].hp);
         }
     }
 

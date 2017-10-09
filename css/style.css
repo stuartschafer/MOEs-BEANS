@@ -1,6 +1,6 @@
 .place {
     position: absolute;
-    height: 13.2%;
+    height: 9%;
     z-index: -10;
 }
 
@@ -27,7 +27,7 @@
     z-index: 10;
     margin-left: 42.2%;
     width: 2%;
-    height: 55.9%;
+    height: 37.2%;
 }
 
 #enemyWater {
@@ -43,7 +43,7 @@
 }
 
 #enemyMountains {
-    /* z-index: 30;      */
+    z-index: 30;      
     width: 8.9%;
     margin-left: 77.5%;
     background-color: grey;
@@ -63,9 +63,10 @@
     width: 50px;
 }
 
-/* .locations {
-    border: 1px solid black;
-} */
+.moeDescriptions {
+    height: 50px;
+    width: 50px;
+}
 
 #ogre {
     margin-top: 170px;
