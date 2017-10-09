@@ -1,6 +1,7 @@
 .place {
     position: absolute;
     height: 9%;
+    height: 60px;
     z-index: -10;
 }
 

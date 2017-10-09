@@ -22,7 +22,10 @@ $(document).ready(function() {
     let spot = 0;
     let enemyPlace = 0;
     let enemySpot = 0;
-    const fightPeeps = [charArray, enemyCharArray];
+    let charArray = [];
+    let enemyCharArray = [];
+    const fightPeeps = [charArray, enemyCharArray, charArray];
+    const fightKnowns = ["enemyr", "r", "enemyStatsR", "statsR", "underEnemyStatsR", "underStatsR"];
     
     const allCharacters = [
         { char: "mage",
@@ -47,8 +50,8 @@ $(document).ready(function() {
 
     // console.log(allCharacters);
 
-    let charArray = [];
-    let enemyCharArray = [];
+    // let charArray = [];
+    // let enemyCharArray = [];
     let row = 0;
     let newChar = {};
 
@@ -329,7 +332,7 @@ createEmptyBoxes();
         }
 
         // This checks to see if the character is within range and attack
-        checkIfFight(j);
+        checkIfFight();
 
         for (var i=0; i<allCharacters.length; i++) {
             if (char != allCharacters[i].char) {
@@ -400,10 +403,12 @@ createEmptyBoxes();
 // fightKnowns = [enemyr, r, enemyStatsR, statsR, underEnemyStatsR, underStatsR]
 
     function checkIfFight() {
+        if (charArray.length > 0 || enemyCharArray > 0) {
+        
         for (var i = 0; i < 2; i++) {
             if (fightPeeps[i].length > 0) {
-                if (fightPeeps[i].inRange === true) {
-                    for (var j = 0; j < fightPeeps[i].length; j++) {
+                for (var j = 0; j < fightPeeps[i].length; j++) {
+                    if (fightPeeps[i][j].inRange === true) {
                         let enemySpot19 = $("#" + fightKnowns[i] + fightPeeps[i][j].row + "s19").attr("occupied");
                         let enemySpot18 = $("#" + fightKnowns[i] + fightPeeps[i][j].row + "s18").attr("occupied");
                         let enemySpot17 = $("#" + fightKnowns[i] + fightPeeps[i][j].row + "s17").attr("occupied");
@@ -450,6 +455,9 @@ createEmptyBoxes();
 
                     let attackProb = Math.floor((Math.random() * 4) + 1);
 
+// fightPeeps = [charArray, enemyCharArray, charArray]; i
+// fightKnowns = [enemyr, r, enemyStatsR, statsR, underEnemyStatsR, underStatsR];
+
                     if (prob === 25 && attackProb === 1) {
                         // Enemy loses 1 point of health
                         fightPeeps[i+1][enemyPlace].hp = fightPeeps[i+1][enemyPlace].hp - 1;
@@ -463,7 +471,7 @@ createEmptyBoxes();
                         // Enemy loses 3 points of health
                         fightPeeps[i+1][enemyPlace].hp = fightPeeps[i+1][enemyPlace].hp - 3;
                     } else {
-                        console.log("MISS!");
+                        // console.log("MISS!");
                     }
                 }
                 
@@ -490,6 +498,7 @@ createEmptyBoxes();
                 prob = 0;
 
             }
+        }
         }
     }
 
