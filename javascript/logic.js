@@ -397,6 +397,18 @@ createEmptyBoxes();
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+    // CLEAN UP THIS AREA!!!!
+
     function checkIfFight(j) {
         let enemySpot19 = $("#enemyr" + charArray[j].row + "s19").attr("occupied");
         let enemySpot18 = $("#enemyr" + charArray[j].row + "s18").attr("occupied");
