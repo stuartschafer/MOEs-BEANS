@@ -465,7 +465,6 @@ createEmptyBoxes();
         checkOpponentsFight();
 
         if (enemyCharArray[enemyPlace].hp <= 0) {
-            // console.log("Character has died!");
             // Eliminates the enemy from the screen and array
             $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
             $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("occupied", false);
@@ -492,9 +491,7 @@ createEmptyBoxes();
 
     function checkOpponentsFight() {
         for (var k = 0; k < enemyCharArray.length; k++) {
-            // console.log(enemyCharArray);
             if (enemyCharArray[k].inRange === true) {
-                console.log("I'm here!!!!!");
                 checkEnemyFight(k);
             }
         }
@@ -538,8 +535,6 @@ createEmptyBoxes();
     function enemyFight(k) {
         // This finds where the card on the object matches the card on the box
         for (var i = 0; i < charArray.length; i++) {
-            // console.log(enemySpot);
-            // console.log($("#enemyr" + charArray[i].row + "s" + enemySpot).attr("card"));
             if (charArray[i].card.toString() === $("#r" + enemyCharArray[k].row + "s" + enemySpot).attr("card")) {
                 playerPlace = i;
             }
@@ -565,7 +560,6 @@ createEmptyBoxes();
         }
 
         if (charArray[playerPlace].hp <= 0) {
-            // console.log("Character has died!");
             // Eliminates the enemy from the screen and array
             $("#r" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
             $("#r" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).attr("occupied", false);
