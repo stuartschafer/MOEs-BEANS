@@ -332,8 +332,8 @@ createEmptyBoxes();
                 }
            }
         }
-// FIX BEANS FOR ENEMY - they do not harvest even if they are next to the beans
-// Add harvest enemy beans before fighting
+
+        // This checks to see if the character is within range and attck
         for (var j = 0; j < charArray.length; j++) {
             if (charArray.length > 0) {
                 if (charArray[j].inRange === true) {
@@ -342,9 +342,6 @@ createEmptyBoxes();
             }
         }
 
-
-
-        
         for (var i=0; i<allCharacters.length; i++) {
             if (char != allCharacters[i].char) {
                 $("#" + allCharacters[i].char).fadeOut("slow");
