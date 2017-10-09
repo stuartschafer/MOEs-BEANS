@@ -22,7 +22,6 @@ $(document).ready(function() {
     let spot = 0;
     let enemyPlace = 0;
     let enemySpot = 0;
-    const fightPeeps = [charArray, enemyCharArray];
     
     const allCharacters = [
         { char: "mage",
@@ -254,12 +253,15 @@ createEmptyBoxes();
                 }
 
                 if ((charArray[j].range === 4 && charArray[j].position === 16) || (charArray[j].range === 4 && charArray[j].position === 17) || (charArray[j].range === 4 && charArray[j].position === 18) || (charArray[j].range === 4 && charArray[j].position === 19)) {
+                    // console.log(charArray[j].char + " on row " + charArray[j].row + " spot " + charArray[j].position + " is within striking distance");
                     charArray[j].inRange = true;
                     // checkIfFight();
                 } else if ((charArray[j].range === 3 && charArray[j].position === 17) || (charArray[j].range === 3 && charArray[j].position === 18) || (charArray[j].range === 3 && charArray[j].position === 19)) {
+                    // console.log(charArray[j].char + " on row " + charArray[j].row + " spot " + charArray[j].position + " is within striking distance");
                     charArray[j].inRange = true;
                     // checkIfFight();
                 } else if ((charArray[j].range === 2 && charArray[j].position === 18) || (charArray[j].range === 2 && charArray[j].position === 19)) {
+                    // console.log(charArray[j].char + " on row " + charArray[j].row + " spot " + charArray[j].position + " is within striking distance");
                     charArray[j].inRange = true;
                     // checkIfFight();
                 }
@@ -318,18 +320,27 @@ createEmptyBoxes();
                 if ((enemyCharArray[k].range === 4 && enemyCharArray[k].position === 16) || (enemyCharArray[k].range === 4 && enemyCharArray[k].position === 17) || (enemyCharArray[k].range === 4 && enemyCharArray[k].position === 18) || (enemyCharArray[k].range === 4 && enemyCharArray[k].position === 19)) {
                     // console.log(enemyCharArray[k].char + " on row " + enemyCharArray[k].row + " spot " + enemyCharArray[k].position + " is within striking distance");
                     enemyCharArray[k].inRange = true;
+                    // checkIfFight();
                 } else if ((enemyCharArray[k].range === 3 && enemyCharArray[k].position === 17) || (enemyCharArray[k].range === 3 && enemyCharArray[k].position === 18) || (enemyCharArray[k].range === 3 && enemyCharArray[k].position === 19)) {
                     // console.log(enemyCharArray[k].char + " on row " + enemyCharArray[k].row + " spot " + enemyCharArray[k].position + " is within striking distance");
                     enemyCharArray[k].inRange = true;
+                    // checkIfFight();
                 } else if ((enemyCharArray[k].range === 2 && enemyCharArray[k].position === 18) || (enemyCharArray[k].range === 2 && enemyCharArray[k].position === 19)) {
                     // console.log(enemyCharArray[k].char + " on row " + enemyCharArray[k].row + " spot " + enemyCharArray[k].position + " is within striking distance");
                     enemyCharArray[k].inRange = true;
+                    // checkIfFight();
                 }
            }
         }
 
-        // This checks to see if the character is within range and attack
-        checkIfFight(j);
+        // This checks to see if the character is within range and attck
+        for (var j = 0; j < charArray.length; j++) {
+            if (charArray.length > 0) {
+                if (charArray[j].inRange === true) {
+                    checkIfFight(j);
+                }
+            }
+        }
 
         for (var i=0; i<allCharacters.length; i++) {
             if (char != allCharacters[i].char) {
@@ -396,104 +407,186 @@ createEmptyBoxes();
 
 
 
-// fightPeeps = [charArray, enemyCharArray, charArray]; i
-// fightKnowns = [enemyr, r, enemyStatsR, statsR, underEnemyStatsR, underStatsR]
+    // CLEAN UP THIS AREA!!!!
 
-    function checkIfFight() {
-        for (var i = 0; i < 2; i++) {
-            if (fightPeeps[i].length > 0) {
-                if (fightPeeps[i].inRange === true) {
-                    for (var j = 0; j < fightPeeps[i].length; j++) {
-                        let enemySpot19 = $("#" + fightKnowns[i] + fightPeeps[i][j].row + "s19").attr("occupied");
-                        let enemySpot18 = $("#" + fightKnowns[i] + fightPeeps[i][j].row + "s18").attr("occupied");
-                        let enemySpot17 = $("#" + fightKnowns[i] + fightPeeps[i][j].row + "s17").attr("occupied");
-                        let enemySpot16 = $("#" + fightKnowns[i] + fightPeeps[i][j].row + "s16").attr("occupied");
+    function checkIfFight(j) {
+        let enemySpot19 = $("#enemyr" + charArray[j].row + "s19").attr("occupied");
+        let enemySpot18 = $("#enemyr" + charArray[j].row + "s18").attr("occupied");
+        let enemySpot17 = $("#enemyr" + charArray[j].row + "s17").attr("occupied");
+        let enemySpot16 = $("#enemyr" + charArray[j].row + "s16").attr("occupied");
 
-                        if (enemySpot19 === "true") {
-                            enemy = $("#" + fightKnowns[i] + fightPeeps[i][j].row + "s19").attr("card");
-                            spot = 19;
-                        } else if (enemySpot18 === "true") {
-                            enemy = $("#" + fightKnowns[i] + fightPeeps[i][j].row + "s18").attr("card");
-                            spot = 18;
-                        } else if (enemySpot17 === "true") {
-                            enemy = $("#" + fightKnowns[i] + fightPeeps[i][j].row + "s17").attr("card");
-                            spot = 17;
-                        } else if (enemySpot16 === "true") {
-                            enemy = $("#" + fightKnowns[i] + fightPeeps[i][j].row + "s16").attr("card");
-                            spot = 16;
-                        }
+        if (enemySpot19 === "true") {
+            enemy = $("#enemyr" + charArray[j].row + "s19").attr("card");
+            spot = 19;
+        } else if (enemySpot18 === "true") {
+            enemy = $("#enemyr" + charArray[j].row + "s18").attr("card");
+            spot = 18;
+        } else if (enemySpot17 === "true") {
+            enemy = $("#enemyr" + charArray[j].row + "s17").attr("card");
+            spot = 17;
+        } else if (enemySpot16 === "true") {
+            enemy = $("#enemyr" + charArray[j].row + "s16").attr("card");
+            spot = 16;
+        }
 
-                        if (fightPeeps[i][j].position === 19 && enemySpot19 === "true") {
-                            prob = 100;
-                            fight(i);
-                        } else if (fightPeeps[i][j].range === 4 && (fightPeeps[i][j].position === 19 && enemySpot18 === "true" || fightPeeps[i][j].position === 18 && enemySpot19 === "true")) {
-                            prob = 75;
-                            fight(i);
-                        } else if (fightPeeps[i][j].range === 4 && (fightPeeps[i][j].position === 19 && enemySpot17 === "true" || fightPeeps[i][j].position === 18 && enemySpot18 === "true" || fightPeeps[i][j].position === 17 && enemySpot19 === "true")) {
-                            prob = 50;
-                            fight(i);
-                        } else if (fightPeeps[i][j].range === 4 && (fightPeeps[i][j].position === 19 && enemySpot16 === "true" || fightPeeps[i][j].position === 18 && enemySpot17 === "true" || fightPeeps[i][j].position === 17 && enemySpot18 === "true" || fightPeeps[i][j].position === 16 && enemySpot19 === "true")) {
-                            prob = 25;
-                            fight(i);
-                        }
-                    }
-                }
+        if (charArray[j].position === 19 && enemySpot19 === "true") {
+            prob = 100;
+            fight(j);
+        } else if (charArray[j].range === 4 && (charArray[j].position === 19 && enemySpot18 === "true" || charArray[j].position === 18 && enemySpot19 === "true")) {
+            prob = 75;
+            fight(j);
+        } else if (charArray[j].range === 4 && (charArray[j].position === 19 && enemySpot17 === "true" || charArray[j].position === 18 && enemySpot18 === "true" || charArray[j].position === 17 && enemySpot19 === "true")) {
+            prob = 50;
+            fight(j);
+        } else if (charArray[j].range === 4 && (charArray[j].position === 19 && enemySpot16 === "true" || charArray[j].position === 18 && enemySpot17 === "true" || charArray[j].position === 17 && enemySpot18 === "true" || charArray[j].position === 16 && enemySpot19 === "true")) {
+            prob = 25;
+            fight(j);
+        }
+    }
+        
+    function fight(j) {
+        // This finds where the card on the object matches the card on the box
+        for (var i = 0; i < enemyCharArray.length; i++) {
+            if (enemyCharArray[i].card.toString() === $("#enemyr" + charArray[j].row + "s" + spot).attr("card")) {
+                enemyPlace = i;
+            }
+        }
+        spot = 0;
 
-                function fight(i) {
-                    // This finds where the card on the object matches the card on the box
-                    for (var k = 0; k < fightPeeps[i].length; k++) {
-                        if (fightPeeps[i][k].card.toString() === $("#" + fightKnowns[i] + fightPeeps[i][j].row + "s" + spot).attr("card")) {
-                            enemyPlace = k;
-                        }
-                    }
-                    spot = 0;
+        let attackProb = Math.floor((Math.random() * 4) + 1);
 
-                    let attackProb = Math.floor((Math.random() * 4) + 1);
+        if (prob === 25 && attackProb === 1) {
+            // Enemy loses 1 point of health
+            enemyCharArray[enemyPlace].hp = enemyCharArray[enemyPlace].hp - 1;
+        } else if (prob === 50 && (attackProb === 1 || attackProb === 2)) {
+            // Enemy loses 1 point of health
+            enemyCharArray[enemyPlace].hp = enemyCharArray[enemyPlace].hp - 1;
+        } else if (prob === 75 && (attackProb === 1 || attackProb === 2 || attackProb === 3)) {
+            // Enemy loses 2 points of health
+            enemyCharArray[enemyPlace].hp = enemyCharArray[enemyPlace].hp - 2;
+        } else if (prob === 100) {
+            // Enemy loses 3 points of health
+            enemyCharArray[enemyPlace].hp = enemyCharArray[enemyPlace].hp - 3;
+        } else {
+            console.log("MISS!");
+        }
 
-                    if (prob === 25 && attackProb === 1) {
-                        // Enemy loses 1 point of health
-                        fightPeeps[i+1][enemyPlace].hp = fightPeeps[i+1][enemyPlace].hp - 1;
-                    } else if (prob === 50 && (attackProb === 1 || attackProb === 2)) {
-                        // Enemy loses 1 point of health
-                        fightPeeps[i+1][enemyPlace].hp = fightPeeps[i+1][enemyPlace].hp - 1;
-                    } else if (prob === 75 && (attackProb === 1 || attackProb === 2 || attackProb === 3)) {
-                        // Enemy loses 2 points of health
-                        fightPeeps[i+1][enemyPlace].hp = fightPeeps[i+1][enemyPlace].hp - 2;
-                    } else if (prob === 100) {
-                        // Enemy loses 3 points of health
-                        fightPeeps[i+1][enemyPlace].hp = fightPeeps[i+1][enemyPlace].hp - 3;
-                    } else {
-                        console.log("MISS!");
-                    }
-                }
-                
-                if (fightPeeps[i+1][enemyPlace].hp <= 0) {
-                    // Eliminates the enemy from the screen and array
-                    $("#" + fightKnowns[i] + fightPeeps[i+1][enemyPlace].row + "s" + fightPeeps[i+1][enemyPlace].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
-                    $("#" + fightKnowns[i] + fightPeeps[i+1][enemyPlace].row + "s" + fightPeeps[i+1][enemyPlace].position).attr("occupied", false);
-                    $("#" + fightKnowns[i] + fightPeeps[i+1][enemyPlace].row + "s" + fightPeeps[i+1][enemyPlace].position).attr("hp", 0);
-                    $("#" + fightKnowns[i] + fightPeeps[i+1][enemyPlace].row + "s" + fightPeeps[i+1][enemyPlace].position).attr("attack", 0);
-                    $("#" + fightKnowns[i] + fightPeeps[i+1][enemyPlace].row + "s" + fightPeeps[i+1][enemyPlace].position).attr("scav", 0);
-                    $("#" + fightKnowns[i] + fightPeeps[i+1][enemyPlace].row + "s" + fightPeeps[i+1][enemyPlace].position).attr("range", 0);
-                    $("#" + fightKnowns[i] + fightPeeps[i+1][enemyPlace].row + "s" + fightPeeps[i+1][enemyPlace].position).attr("card", 0);
-                    $("#" + fightKnowns[i+2] + fightPeeps[i+1][enemyPlace].row + "s" + fightPeeps[i+1][enemyPlace].position).empty();
-                    $("#" + fightKnowns[i+4] + fightPeeps[i+1][enemyPlace].row + "s" + fightPeeps[i+1][enemyPlace].position).empty();
-                    fightPeeps[i+1].splice(enemyPlace, 1);
+        checkOpponentsFight();
 
-                } else {
-                    // Updates stats to the enemy's character
-                    $("#" + fightKnowns[i+4] + fightPeeps[i+1][enemyPlace].row + "s" + fightPeeps[i+1][enemyPlace].position).empty();
-                    $("#" + fightKnowns[i+4] + fightPeeps[i+1][enemyPlace].row + "s" + fightPeeps[i+1][enemyPlace].position).html($('<img id="heart" src="images/heart.png" />'));
-                    $("#" + fightKnowns[i+4] + fightPeeps[i+1][enemyPlace].row + "s" + fightPeeps[i+1][enemyPlace].position).append(fightPeeps[i+1][enemyPlace].hp);
-                }
+        if (enemyCharArray[enemyPlace].hp <= 0) {
+            // Eliminates the enemy from the screen and array
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("occupied", false);
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("hp", 0);
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("attack", 0);
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("scav", 0);
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("range", 0);
+            $("#enemyr" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).attr("card", 0);
+            $("#enemyStatsR" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).empty();
+            $("#underEnemyStatsR" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).empty();
+            enemyCharArray.splice(enemyPlace, 1);
 
-                prob = 0;
+        } else {
+            // Updates stats to the enemy's character
+            $("#underEnemyStatsR" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).empty();
+            $("#underEnemyStatsR" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).html($('<img id="heart" src="images/heart.png" />'));
+            $("#underEnemyStatsR" + enemyCharArray[enemyPlace].row + "s" + enemyCharArray[enemyPlace].position).append(enemyCharArray[enemyPlace].hp);
+        }
 
+        prob = 0;
+    }
+
+
+
+    function checkOpponentsFight() {
+        for (var k = 0; k < enemyCharArray.length; k++) {
+            if (enemyCharArray[k].inRange === true) {
+                checkEnemyFight(k);
             }
         }
     }
 
-// fightPeeps = [charArray, enemyCharArray, charArray]; i
-// fightKnowns = [enemyr, r, enemyStatsR, statsR, underEnemyStatsR, underStatsR]
+    function checkEnemyFight(k) {
+        let playerSpot19 = $("#r" + enemyCharArray[k].row + "s19").attr("occupied");
+        let playerSpot18 = $("#r" + enemyCharArray[k].row + "s18").attr("occupied");
+        let playerSpot17 = $("#r" + enemyCharArray[k].row + "s17").attr("occupied");
+        let playerSpot16 = $("#r" + enemyCharArray[k].row + "s16").attr("occupied");
+
+        if (playerSpot19 === "true") {
+            player = $("#r" + enemyCharArray[k].row + "s19").attr("card");
+            enemySpot = 19;
+        } else if (playerSpot18 === "true") {
+            player = $("#r" + enemyCharArray[k].row + "s18").attr("card");
+            enemySpot = 18;
+        } else if (playerSpot17 === "true") {
+            player = $("#r" + enemyCharArray[k].row + "s17").attr("card");
+            enemySpot = 17;
+        } else if (playerSpot16 === "true") {
+            player = $("#r" + enemyCharArray[k].row + "s16").attr("card");
+            enemySpot = 16;
+        }
+
+        if (enemyCharArray[k].position === 19 && playerSpot19 === "true") {
+            enemyProb = 100;
+            enemyFight(k);
+        } else if (enemyCharArray[k].range === 4 && (enemyCharArray[k].position === 19 && playerSpot18 === "true" || enemyCharArray[k].position === 18 && playerSpot19 === "true")) {
+            enemyProb = 75;
+            enemyFight(k);
+        } else if (enemyCharArray[k].range === 4 && (enemyCharArray[k].position === 19 && playerSpot17 === "true" || enemyCharArray[k].position === 18 && playerSpot18 === "true" || enemyCharArray[k].position === 17 && playerSpot19 === "true")) {
+            enemyProb = 50;
+            enemyFight(k);
+        } else if (enemyCharArray[k].range === 4 && (enemyCharArray[k].position === 19 && playerSpot16 === "true" || enemyCharArray[k].position === 18 && playerSpot17 === "true" || enemyCharArray[k].position === 17 && playerSpot18 === "true" || enemyCharArray[k].position === 16 && playerSpot19 === "true")) {
+            enemyProb = 25;
+            enemyFight(k);
+        }
+    }
+
+    function enemyFight(k) {
+        // This finds where the card on the object matches the card on the box
+        for (var i = 0; i < charArray.length; i++) {
+            if (charArray[i].card.toString() === $("#r" + enemyCharArray[k].row + "s" + enemySpot).attr("card")) {
+                playerPlace = i;
+            }
+        }
+        enemySpot = 0;
+
+        let enemyAttackProb = Math.floor((Math.random() * 4) + 1);
+
+        if (enemyProb === 25 && enemyAttackProb === 1) {
+            // Enemy loses 1 point of health
+            charArray[playerPlace].hp = charArray[playerPlace].hp - 1;
+        } else if (enemyProb === 50 && (enemyAttackProb === 1 || enemyAttackProb === 2)) {
+            // Enemy loses 1 point of health
+            charArray[playerPlace].hp = charArray[playerPlace].hp - 1;
+        } else if (enemyProb === 75 && (enemyAttackProb === 1 || enemyAttackProb === 2 || enemyAttackProb === 3)) {
+            // Enemy loses 2 points of health
+            charArray[playerPlace].hp = charArray[playerPlace].hp - 2;
+        } else if (enemyProb === 100) {
+            // Enemy loses 3 points of health
+            charArray[playerPlace].hp = charArray[playerPlace].hp - 3;
+        } else {
+            console.log("MISS!");
+        }
+
+        if (charArray[playerPlace].hp <= 0) {
+            // Eliminates the enemy from the screen and array
+            $("#r" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).attr("src", "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E");
+            $("#r" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).attr("occupied", false);
+            $("#r" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).attr("hp", 0);
+            $("#r" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).attr("attack", 0);
+            $("#r" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).attr("scav", 0);
+            $("#r" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).attr("range", 0);
+            $("#r" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).attr("card", 0);
+            $("#statsR" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).empty();
+            $("#underStatsR" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).empty();
+            charArray.splice(playerPlace, 1);
+
+        } else {
+            // Updates stats to the enemy's character
+            $("#underStatsR" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).empty();
+            $("#underStatsR" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).html($('<img id="heart" src="images/heart.png" />'));
+            $("#underStatsR" + charArray[playerPlace].row + "s" + charArray[playerPlace].position).append(charArray[playerPlace].hp);
+        }
+    }
 
 });
