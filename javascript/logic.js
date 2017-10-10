@@ -30,28 +30,27 @@ $(document).ready(function() {
     const allCharacters = [
         { char: "mage",
         attack: 3,
-        hp: 2,
+        // hp: 2,
+        hp: 99,
         scav: 1,
         range: 4
         },
         { char: "ogre",
         attack: 1,
-        hp: 6,
+        // hp: 6,
+        hp: 99,
         scav: 3,
         range: 2
         },
         { char: "elf",
         attack: 2,
-        hp: 4,
+        // hp: 4,
+        hp: 99,
         scav: 2,
         range: 3
         }
     ];
 
-    // console.log(allCharacters);
-
-    // let charArray = [];
-    // let enemyCharArray = [];
     let row = 0;
     let newChar = {};
 
@@ -74,9 +73,10 @@ createEmptyBoxes();
                 let underPicStatArea = $('<div id="underStatsR' + i + 's' + j + '" class="underStats" />');
                 let enemyStatArea = $('<div id="enemyStatsR' + i + 's' + j + '" class="stats" />');
                 let underEnemyStatArea = $('<div id="underEnemyStatsR' + i + 's' + j + '" class="underStats" />');
-                $(statArea).css({"text-align":"center", "font-size":"15px", "width":"20", "display":"block"});
-                $(underPicStatArea).css({"text-align":"center", "font-size":"15px", "width":"20", "display":"block"});
-                $(enemyStatArea).css({"text-align":"center", "font-size":"15px", "width":"20", "display":"block"});
+                $(statArea).css({"text-align":"center", "font-size":"10px", "width":"20", "display":"block"});
+                $(underPicStatArea).css({"text-align":"center", "font-size":"10px", "width":"20", "display":"block"});
+                $(enemyStatArea).css({"text-align":"center", "font-size":"10px", "width":"20", "display":"block"});
+                $(underEnemyStatArea).css({"text-align":"center", "font-size":"10px", "width":"20", "display":"block"});
                 
                 // Combines the pic and stats on the same line
                 let imageAndHP = $("<div>");

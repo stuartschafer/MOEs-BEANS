@@ -73,6 +73,7 @@ createEmptyBoxes();
                 $(statArea).css({"text-align":"center", "font-size":"15px", "width":"20", "display":"block"});
                 $(underPicStatArea).css({"text-align":"center", "font-size":"15px", "width":"20", "display":"block"});
                 $(enemyStatArea).css({"text-align":"center", "font-size":"15px", "width":"20", "display":"block"});
+                $(underEnemyStatArea).css({"text-align":"center", "font-size":"15px", "width":"20", "display":"block"});
                 
                 // Combines the pic and stats on the same line
                 let imageAndHP = $("<div>");
