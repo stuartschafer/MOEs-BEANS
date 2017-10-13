@@ -256,6 +256,7 @@ createEmptyBoxes();
                     charArray[j].atBeans = true;
                 }
 
+                // Check if another character is already fighting first
                 if ((charArray[j].range === 4 && charArray[j].position === 16) || (charArray[j].range === 4 && charArray[j].position === 17) || (charArray[j].range === 4 && charArray[j].position === 18) || (charArray[j].range === 4 && charArray[j].position === 19)) {
                     charArray[j].inRange = true;
                     // checkIfFight();
