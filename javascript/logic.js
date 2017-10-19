@@ -396,7 +396,7 @@ createEmptyBoxes();
 
 
 
-// fightPeeps = [charArray, enemyCharArray, charArray]; i
+// fightPeeps = [charArray, enemyCharArray, charArray]; (i)
 // fightKnowns = [enemyr, r, enemyStatsR, statsR, underEnemyStatsR, underStatsR]
 
     function checkIfFight() {
